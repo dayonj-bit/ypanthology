@@ -12,12 +12,17 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "q must be 1-128 strings" });
   if (!ALLOWED.has(target)) return res.status(400).json({ error: "unsupported target" });
 
-  const r = await fetch(`https://translation.googleapis.com/language/translate/v2?key=${encodeURIComponent(key)}`, {
+  let r;
+  try { r = await fetch(`https://translation.googleapis.com/language/translate/v2?key=${encodeURIComponent(key)}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ q, target, source, format: "text" }),
-  });
-  if (!r.ok) return res.status(r.status === 429 ? 429 : 502).json({ error: "translate failed" });
+  }); } catch (e) { return res.status(502).json({ error: "translate failed", detail: "Google에 연결하지 못함" }); }
+  if (!r.ok) {
+    let detail = "";
+    try { const j = await r.json(); detail = j.error?.message || ""; } catch (e) {}
+    return res.status(r.status === 429 ? 429 : 502).json({ error: "translate failed", detail: `Google ${r.status}: ${detail}`.slice(0, 160) });
+  }
   const data = await r.json();
   const translations = (data.data?.translations || []).map(t => t.translatedText);
   res.setHeader("Cache-Control", "s-maxage=86400, stale-while-revalidate=604800");

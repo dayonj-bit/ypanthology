@@ -911,7 +911,7 @@ const langBtn = $("langBtn"), langMenu = $("langMenu"), toast = $("toast");
 let sample = null, busy = false;
 function showToast(msg) {
   toast.textContent = msg; toast.classList.add("on");
-  clearTimeout(showToast.t); showToast.t = setTimeout(() => toast.classList.remove("on"), 2600);
+  clearTimeout(showToast.t); showToast.t = setTimeout(() => toast.classList.remove("on"), msg.length > 30 ? 6000 : 2600);
 }
 function buildMenu() {
   langMenu.innerHTML = LANGS.map(([code, label]) =>
@@ -947,7 +947,11 @@ async function googleTranslate(chunk, to) {
     method: "POST", headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ q: chunk, target: GOOGLE_CODE[to] || to, source: "ko" }),
   });
-  if (!res.ok) throw { code: res.status === 429 ? "rate_limited" : "upstream_error" };
+  if (!res.ok) {
+    let why = ""; try { const j = await res.json(); why = j.detail || j.error || ""; } catch (e) {}
+    if (res.status === 404) why = "번역 서버(api/translate)를 찾을 수 없어요";
+    throw { code: res.status === 429 ? "rate_limited" : "upstream_error", why: `[${res.status}] ${why}`.trim() };
+  }
   const data = await res.json();
   return data.translations;
 }
@@ -982,7 +986,7 @@ async function switchLang(to) {
     if (code === "not_granted" || code === "sampling_disabled" || code === "not_declared" || code === "capability_disabled") {
       langBtn.hidden = true; showToast("이 화면에서는 번역을 쓸 수 없어요");
     } else if (code === "rate_limited") showToast("요청이 많아요. 잠시 뒤 다시 눌러 주세요");
-    else if (code !== "cancelled") showToast("번역하지 못했어요. 다시 눌러 주세요");
+    else if (code !== "cancelled") { console.warn("translate", e); showToast(e && e.why ? `번역 실패 ${e.why}` : "번역하지 못했어요. 다시 눌러 주세요"); }
   } finally {
     busy = false; langBtn.classList.remove("busy"); langBtn.setAttribute("aria-label", "번역");
   }
