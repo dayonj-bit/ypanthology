@@ -386,6 +386,11 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .menu button[aria-checked="true"] { color: var(--red, #b21f1f); font-weight: 600; }
 .menu button[aria-checked="true"]::after { content: "✓"; }
 .menu .note { font-size: 11px; color: #8a8a8a; padding: 6px 12px 4px; line-height: 15px; }
+/* 구글 번역 위젯: 기본 막대·말풍선·하이라이트 숨김 */
+iframe.skiptranslate, .goog-te-banner-frame, .goog-te-balloon-frame, #goog-gt-tt, .goog-tooltip,
+.VIpgJd-ZVi9od-ORHb-OEVmcd, .VIpgJd-ZVi9od-aZ2wEe-wOHMyf, .VIpgJd-yAWNEb-L7lbkb { display: none !important; }
+body { top: 0 !important; position: static !important; }
+.goog-text-highlight, font font { background: none !important; box-shadow: none !important; }
 .toast {
   position: absolute; z-index: 45; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 10px);
   max-width: calc(100% - 40px); padding: 10px 16px; border-radius: 50px; background: #111; color: #fff;
@@ -426,6 +431,14 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
     <main class="m-main" id="list">
       <div class="m-hero" aria-hidden="true"><img class="bg" id="heroA" alt=""><img class="bg" id="heroB" alt=""></div>
       <span class="m-thread" id="thread" aria-hidden="true"></span>
+      <div class="m-bar">
+        <div class="ctrl" id="ctrl">
+          <button class="icon" id="langBtn" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="번역">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.4 2.4 3.6 5.2 3.6 8.5s-1.2 6.1-3.6 8.5c-2.4-2.4-3.6-5.2-3.6-8.5s1.2-6.1 3.6-8.5z"/></svg>
+          </button>
+          <div class="menu notranslate" id="langMenu" role="menu" translate="no" hidden></div>
+        </div>
+      </div>
       <h1 class="m-hello" id="hello" data-i18n="안녕하세요, 독자님&#10;당신을 약속으로 초대합니다.">안녕하세요, 독자님
 당신을 약속으로 초대합니다.</h1>
       <button class="m-notice rv" id="notice" type="button" aria-label="앤솔로지 일정 보기">
@@ -450,7 +463,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
       </button>
       <h1 id="dTitle"></h1>
     </header>
-    <p class="d-by" id="dBy"></p>
+    <p class="d-by notranslate" id="dBy" translate="no"></p>
     <div class="d-body" id="dBody"></div>
     <p class="d-end" data-i18n="미리보기는 여기까지예요. 다음 이야기는 회지에서 이어집니다.">미리보기는 여기까지예요. 다음 이야기는 회지에서 이어집니다.</p>
     <footer class="foot" style="--foot-gap:68px; padding-bottom:30px">
@@ -483,6 +496,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
     <svg class="ob-word" viewBox="94 332 214 31" aria-hidden="true"><g fill="#fff"><path class="g" d="M99.5155 357L107.706 338.8H111.034L119.25 357H115.714L108.668 340.594H110.02L103 357H99.5155ZM103.286 352.788L104.196 350.136H114.024L114.934 352.788H103.286Z" data-x="119.2"/><path class="g" d="M121.564 357V338.8H124.346L135.76 352.814H134.382V338.8H137.736V357H134.954L123.54 342.986H124.918V357H121.564Z" data-x="137.7"/><path class="g" d="M149.798 357V338.8H153.178V357H149.798Z" data-x="153.2"/><path class="g" d="M158.101 357V338.8H160.883L172.297 352.814H170.919V338.8H174.273V357H171.491L160.077 342.986H161.455V357H158.101Z" data-x="174.3"/><path class="g" d="M184.151 357L176.195 338.8H179.861L186.959 355.258H184.853L192.029 338.8H195.409L187.479 357H184.151Z" data-x="195.4"/><path class="g" d="M197.33 357V338.8H200.71V357H197.33Z" data-x="200.7"/><path class="g" d="M209.324 357V341.66H203.292V338.8H218.736V341.66H212.704V357H209.324Z" data-x="218.7"/><path class="g" d="M217.785 357L225.975 338.8H229.303L237.519 357H233.983L226.937 340.594H228.289L221.269 357H217.785ZM221.555 352.788L222.465 350.136H232.293L233.203 352.788H221.555Z" data-x="237.5"/><path class="g" d="M242.612 357V341.66H236.58V338.8H252.024V341.66H245.992V357H242.612Z" data-x="252.0"/><path class="g" d="M254.56 357V338.8H257.94V357H254.56Z" data-x="257.9"/><path class="g" d="M271.391 357.26C269.97 357.26 268.661 357.026 267.465 356.558C266.269 356.09 265.229 355.44 264.345 354.608C263.461 353.759 262.776 352.771 262.291 351.644C261.806 350.5 261.563 349.252 261.563 347.9C261.563 346.548 261.806 345.309 262.291 344.182C262.776 343.038 263.461 342.05 264.345 341.218C265.229 340.369 266.269 339.71 267.465 339.242C268.661 338.774 269.961 338.54 271.365 338.54C272.786 338.54 274.086 338.774 275.265 339.242C276.461 339.71 277.501 340.369 278.385 341.218C279.269 342.05 279.954 343.038 280.439 344.182C280.924 345.309 281.167 346.548 281.167 347.9C281.167 349.252 280.924 350.5 280.439 351.644C279.954 352.788 279.269 353.776 278.385 354.608C277.501 355.44 276.461 356.09 275.265 356.558C274.086 357.026 272.795 357.26 271.391 357.26ZM271.365 354.296C272.284 354.296 273.133 354.14 273.913 353.828C274.693 353.516 275.369 353.074 275.941 352.502C276.513 351.913 276.955 351.237 277.267 350.474C277.596 349.694 277.761 348.836 277.761 347.9C277.761 346.964 277.596 346.115 277.267 345.352C276.955 344.572 276.513 343.896 275.941 343.324C275.369 342.735 274.693 342.284 273.913 341.972C273.133 341.66 272.284 341.504 271.365 341.504C270.446 341.504 269.597 341.66 268.817 341.972C268.054 342.284 267.378 342.735 266.789 343.324C266.217 343.896 265.766 344.572 265.437 345.352C265.125 346.115 264.969 346.964 264.969 347.9C264.969 348.819 265.125 349.668 265.437 350.448C265.766 351.228 266.217 351.913 266.789 352.502C267.361 353.074 268.037 353.516 268.817 353.828C269.597 354.14 270.446 354.296 271.365 354.296Z" data-x="281.2"/><path class="g" d="M284.75 357V338.8H287.532L298.946 352.814H297.568V338.8H300.922V357H298.14L286.726 342.986H288.104V357H284.75Z" data-x="300.9"/></g><rect class="ob-caret" x="98" y="336" width="2" height="23" fill="#fff"/></svg>
     <svg class="ob-foot" viewBox="80 749 242 30" aria-hidden="true"><path d="M83.9824 755.758C83.9824 754.398 85.0781 753.303 86.4434 753.309C87.6152 753.303 88.5996 754.135 88.7637 755.23H87.7441C87.6328 754.674 87.0703 754.275 86.4434 754.27C85.6172 754.275 84.9551 754.938 84.9551 755.758C84.9551 756.578 85.6172 757.24 86.4434 757.246C87.0703 757.24 87.5508 756.842 87.6621 756.285H88.6699C88.5176 757.381 87.6152 758.207 86.4434 758.207C85.0781 758.207 83.9824 757.117 83.9824 755.758ZM82.0254 755.758C82.0312 753.338 83.9941 751.381 86.3965 751.387C88.8223 751.381 90.7617 753.338 90.7676 755.758C90.7793 758.166 88.8223 760.135 86.3965 760.129C83.9941 760.135 82.0137 758.166 82.0254 755.758ZM82.998 755.758C82.9922 757.621 84.5215 759.156 86.3965 759.156C88.2773 759.156 89.8008 757.627 89.7949 755.758C89.7891 753.877 88.2715 752.359 86.3965 752.359C84.5332 752.359 83.0098 753.883 82.998 755.758ZM95.1855 760L95.1738 759.227L98.0684 756.18C99.0703 755.113 99.5508 754.539 99.5566 753.754C99.5508 752.881 98.8242 752.318 97.8691 752.312C96.8555 752.318 96.2227 752.957 96.2168 753.906H95.2207C95.209 752.406 96.3691 751.398 97.9043 751.398C99.4453 751.398 100.535 752.436 100.541 753.754C100.535 754.703 100.096 755.441 98.5957 756.988L96.6504 758.992V759.062H100.693V760H95.1855ZM105.006 760.117C103.125 760.117 102.035 758.535 102.041 755.758C102.035 753.004 103.137 751.398 105.006 751.398C106.869 751.398 107.971 753.004 107.971 755.758C107.971 758.535 106.887 760.117 105.006 760.117ZM103.061 755.758C103.066 757.955 103.775 759.18 105.006 759.18C106.23 759.18 106.945 757.955 106.939 755.758C106.945 753.561 106.225 752.318 105.006 752.312C103.787 752.318 103.066 753.561 103.061 755.758ZM109.377 760L109.365 759.227L112.26 756.18C113.262 755.113 113.742 754.539 113.748 753.754C113.742 752.881 113.016 752.318 112.061 752.312C111.047 752.318 110.414 752.957 110.408 753.906H109.412C109.4 752.406 110.561 751.398 112.096 751.398C113.637 751.398 114.727 752.436 114.732 753.754C114.727 754.703 114.287 755.441 112.787 756.988L110.842 758.992V759.062H114.885V760H109.377ZM119.373 760.117C117.902 760.1 116.279 759.227 116.279 756.086C116.279 753.08 117.51 751.398 119.502 751.398C120.996 751.398 122.039 752.318 122.256 753.648H121.213C121.02 752.898 120.445 752.336 119.502 752.336C118.107 752.336 117.27 753.525 117.275 755.57H117.381C117.867 754.861 118.646 754.445 119.561 754.445C121.066 754.445 122.326 755.617 122.326 757.258C122.326 758.857 121.16 760.135 119.373 760.117ZM117.416 757.281C117.422 758.277 118.236 759.186 119.373 759.191C120.469 759.186 121.301 758.324 121.307 757.27C121.301 756.227 120.504 755.377 119.396 755.371C118.283 755.377 117.428 756.279 117.416 757.281ZM127.307 760H126.205L129.311 751.516H130.424L133.529 760H132.416L131.566 757.609H128.156L127.307 760ZM128.479 756.684H131.244L129.896 752.887H129.826L128.479 756.684ZM141.416 751.516V760H140.408L135.814 753.391H135.732V760H134.678V751.516H135.697L140.291 758.137H140.373V751.516H141.416ZM147.357 751.516V760H146.303V751.516H147.357ZM155.971 751.516V760H154.963L150.369 753.391H150.287V760H149.232V751.516H150.252L154.846 758.137H154.928V751.516H155.971ZM158.232 751.516L160.729 758.629H160.822L163.33 751.516H164.443L161.338 760H160.225L157.119 751.516H158.232ZM166.646 751.516V760H165.592V751.516H166.646ZM168.053 752.453V751.516H174.451V752.453H171.791V760H170.725V752.453H168.053ZM175.236 760H174.135L177.24 751.516H178.354L181.459 760H180.346L179.496 757.609H176.086L175.236 760ZM176.408 756.684H179.174L177.826 752.887H177.756L176.408 756.684ZM181.143 752.453V751.516H187.541V752.453H184.881V760H183.814V752.453H181.143ZM190.002 751.516V760H188.947V751.516H190.002ZM199.049 755.758C199.055 758.441 197.473 760.117 195.299 760.117C193.119 760.117 191.543 758.441 191.549 755.758C191.543 753.074 193.119 751.398 195.299 751.398C197.473 751.398 199.055 753.074 199.049 755.758ZM192.568 755.758C192.574 757.943 193.764 759.127 195.299 759.133C196.834 759.127 198.023 757.943 198.029 755.758C198.023 753.566 196.834 752.383 195.299 752.383C193.764 752.383 192.574 753.566 192.568 755.758ZM207.334 751.516V760H206.326L201.732 753.391H201.65V760H200.596V751.516H201.615L206.209 758.137H206.291V751.516H207.334ZM209.795 760.07C209.385 760.064 209.033 759.725 209.045 759.309C209.033 758.898 209.385 758.559 209.795 758.559C210.211 758.559 210.551 758.898 210.545 759.309C210.551 759.725 210.211 760.064 209.795 760.07ZM215.631 760H214.529L217.635 751.516H218.748L221.854 760H220.74L219.891 757.609H216.48L215.631 760ZM216.803 756.684H219.568L218.221 752.887H218.15L216.803 756.684ZM223.881 751.516V760H222.873V751.516H223.881ZM226.494 751.516V760H225.486V751.516H226.494ZM231.24 760V751.516H234.123C236.109 751.516 237.018 752.617 237.018 754.129C237.018 755.254 236.514 756.133 235.436 756.508L237.346 760H236.115L234.34 756.701C234.275 756.707 234.205 756.707 234.135 756.707H232.295V760H231.24ZM232.295 755.746H234.088C235.441 755.746 235.969 755.137 235.975 754.129C235.969 753.115 235.441 752.453 234.076 752.453H232.295V755.746ZM238.412 760V753.637H239.42V760H238.412ZM238.213 751.914C238.207 751.539 238.529 751.24 238.916 751.246C239.303 751.24 239.625 751.539 239.631 751.914C239.625 752.283 239.303 752.582 238.916 752.582C238.529 752.582 238.207 752.283 238.213 751.914ZM243.604 762.52C242.062 762.52 241.02 761.846 240.908 760.668H241.963C242.098 761.318 242.701 761.641 243.604 761.641C244.693 761.641 245.361 761.166 245.361 760.117V758.828H245.279C245.062 759.18 244.658 759.9 243.428 759.906C241.881 759.9 240.721 758.734 240.721 756.73C240.721 754.773 241.84 753.555 243.439 753.555C244.676 753.555 245.074 754.305 245.303 754.645H245.385V753.637H246.369V760.176C246.363 761.816 245.156 762.52 243.604 762.52ZM241.74 756.766C241.74 758.084 242.361 759.004 243.568 759.004C244.734 759.004 245.379 758.166 245.385 756.766C245.379 755.4 244.752 754.457 243.568 754.457C242.344 754.457 241.74 755.482 241.74 756.766ZM248.982 756.18V760H247.975V751.516H248.982V754.633H249.064C249.363 753.977 249.932 753.555 250.939 753.555C252.24 753.555 253.107 754.322 253.107 755.957V760H252.1V756.027C252.1 755.025 251.549 754.457 250.635 754.457C249.686 754.457 248.982 755.078 248.982 756.18ZM257.502 753.637V754.48H256.166V758.172C256.16 758.986 256.57 759.121 256.998 759.121C257.18 759.121 257.449 759.104 257.596 759.098V760.035C257.438 760.059 257.191 760.082 256.893 760.082C256.043 760.082 255.152 759.555 255.146 758.43V754.48H254.186V753.637H255.146V752.113H256.166V753.637H257.502ZM262.225 755.289C262.084 754.762 261.68 754.416 260.936 754.41C260.15 754.416 259.594 754.838 259.588 755.371C259.594 755.793 259.934 756.08 260.678 756.262L261.627 756.496C262.764 756.766 263.32 757.334 263.326 758.219C263.32 759.32 262.424 760.135 260.83 760.129C259.4 760.135 258.551 759.496 258.381 758.336H259.436C259.553 758.957 260.004 759.256 260.807 759.25C261.715 759.256 262.283 758.875 262.283 758.277C262.283 757.826 261.961 757.533 261.24 757.363L260.279 757.141C259.172 756.883 258.58 756.279 258.58 755.43C258.58 754.34 259.535 753.555 260.936 753.555C262.254 753.555 263.08 754.258 263.209 755.289H262.225ZM267.779 760V751.516H270.662C272.648 751.516 273.557 752.617 273.557 754.129C273.557 755.254 273.053 756.133 271.975 756.508L273.885 760H272.654L270.879 756.701C270.814 756.707 270.744 756.707 270.674 756.707H268.834V760H267.779ZM268.834 755.746H270.627C271.98 755.746 272.508 755.137 272.514 754.129C272.508 753.115 271.98 752.453 270.615 752.453H268.834V755.746ZM277.564 760.129C275.725 760.135 274.588 758.822 274.588 756.871C274.588 754.914 275.742 753.555 277.471 753.555C278.807 753.555 280.219 754.375 280.213 756.73V757.152H275.596C275.648 758.5 276.434 759.238 277.564 759.238C278.326 759.238 278.807 758.904 279.041 758.512H280.119C279.82 759.479 278.877 760.135 277.564 760.129ZM275.602 756.297H279.193C279.188 755.236 278.52 754.445 277.471 754.445C276.369 754.445 275.672 755.312 275.602 756.297ZM285.064 755.289C284.924 754.762 284.52 754.416 283.775 754.41C282.99 754.416 282.434 754.838 282.428 755.371C282.434 755.793 282.773 756.08 283.518 756.262L284.467 756.496C285.604 756.766 286.16 757.334 286.166 758.219C286.16 759.32 285.264 760.135 283.67 760.129C282.24 760.135 281.391 759.496 281.221 758.336H282.275C282.393 758.957 282.844 759.256 283.646 759.25C284.555 759.256 285.123 758.875 285.123 758.277C285.123 757.826 284.801 757.533 284.08 757.363L283.119 757.141C282.012 756.883 281.42 756.279 281.42 755.43C281.42 754.34 282.375 753.555 283.775 753.555C285.094 753.555 285.92 754.258 286.049 755.289H285.064ZM290.15 760.129C288.311 760.135 287.174 758.822 287.174 756.871C287.174 754.914 288.328 753.555 290.057 753.555C291.393 753.555 292.805 754.375 292.799 756.73V757.152H288.182C288.234 758.5 289.02 759.238 290.15 759.238C290.912 759.238 291.393 758.904 291.627 758.512H292.705C292.406 759.479 291.463 760.135 290.15 760.129ZM288.188 756.297H291.779C291.773 755.236 291.105 754.445 290.057 754.445C288.955 754.445 288.258 755.312 288.188 756.297ZM294.111 760V753.637H295.084V754.609H295.154C295.383 753.965 296.045 753.537 296.795 753.531C296.947 753.537 297.205 753.543 297.322 753.555V754.574C297.246 754.557 296.977 754.504 296.713 754.504C295.799 754.504 295.119 755.137 295.119 755.992V760H294.111ZM303.744 753.637L301.389 760H300.346L298.002 753.637H299.104L300.838 758.688H300.908L302.643 753.637H303.744ZM307.295 760.129C305.455 760.135 304.318 758.822 304.318 756.871C304.318 754.914 305.473 753.555 307.201 753.555C308.537 753.555 309.949 754.375 309.943 756.73V757.152H305.326C305.379 758.5 306.164 759.238 307.295 759.238C308.057 759.238 308.537 758.904 308.771 758.512H309.85C309.551 759.479 308.607 760.135 307.295 760.129ZM305.332 756.297H308.924C308.918 755.236 308.25 754.445 307.201 754.445C306.1 754.445 305.402 755.312 305.332 756.297ZM313.658 760.129C312.07 760.135 310.951 758.857 310.951 756.836C310.951 754.82 312.07 753.555 313.67 753.555C314.906 753.555 315.293 754.305 315.51 754.645H315.58V751.516H316.6V760H315.615V759.027H315.51C315.287 759.379 314.871 760.135 313.658 760.129ZM311.971 756.812C311.971 758.166 312.592 759.227 313.799 759.227C314.965 759.227 315.609 758.242 315.615 756.812C315.609 755.4 314.982 754.457 313.799 754.457C312.574 754.457 311.971 755.482 311.971 756.812ZM319.061 760.07C318.65 760.064 318.299 759.725 318.311 759.309C318.299 758.898 318.65 758.559 319.061 758.559C319.477 758.559 319.816 758.898 319.811 759.309C319.816 759.725 319.477 760.064 319.061 760.07ZM141.299 776L141.287 775.227L144.182 772.18C145.184 771.113 145.664 770.539 145.67 769.754C145.664 768.881 144.938 768.318 143.982 768.312C142.969 768.318 142.336 768.957 142.33 769.906H141.334C141.322 768.406 142.482 767.398 144.018 767.398C145.559 767.398 146.648 768.436 146.654 769.754C146.648 770.703 146.209 771.441 144.709 772.988L142.764 774.992V775.062H146.807V776H141.299ZM151.119 776.117C149.238 776.117 148.148 774.535 148.154 771.758C148.148 769.004 149.25 767.398 151.119 767.398C152.982 767.398 154.084 769.004 154.084 771.758C154.084 774.535 153 776.117 151.119 776.117ZM149.174 771.758C149.18 773.955 149.889 775.18 151.119 775.18C152.344 775.18 153.059 773.955 153.053 771.758C153.059 769.561 152.338 768.318 151.119 768.312C149.9 768.318 149.18 769.561 149.174 771.758ZM155.49 776L155.479 775.227L158.373 772.18C159.375 771.113 159.855 770.539 159.861 769.754C159.855 768.881 159.129 768.318 158.174 768.312C157.16 768.318 156.527 768.957 156.521 769.906H155.525C155.514 768.406 156.674 767.398 158.209 767.398C159.75 767.398 160.84 768.436 160.846 769.754C160.84 770.703 160.4 771.441 158.9 772.988L156.955 774.992V775.062H160.998V776H155.49ZM165.486 776.117C164.016 776.1 162.393 775.227 162.393 772.086C162.393 769.08 163.623 767.398 165.615 767.398C167.109 767.398 168.152 768.318 168.369 769.648H167.326C167.133 768.898 166.559 768.336 165.615 768.336C164.221 768.336 163.383 769.525 163.389 771.57H163.494C163.98 770.861 164.76 770.445 165.674 770.445C167.18 770.445 168.439 771.617 168.439 773.258C168.439 774.857 167.273 776.135 165.486 776.117ZM163.529 773.281C163.535 774.277 164.35 775.186 165.486 775.191C166.582 775.186 167.414 774.324 167.42 773.27C167.414 772.227 166.617 771.377 165.51 771.371C164.396 771.377 163.541 772.279 163.529 773.281ZM172.318 767.516H173.525L175.857 771.453H175.963L178.295 767.516H179.514L176.443 772.52V776H175.377V772.52L172.318 767.516ZM180.65 776V767.516H183.533C185.52 767.516 186.428 768.699 186.428 770.211C186.428 771.717 185.52 772.918 183.545 772.918H181.705V776H180.65ZM181.705 771.98H183.498C184.852 771.98 185.379 771.219 185.385 770.211C185.379 769.197 184.852 768.453 183.486 768.453H181.705V771.98ZM191.291 776H190.189L193.295 767.516H194.408L197.514 776H196.4L195.551 773.609H192.141L191.291 776ZM192.463 772.684H195.229L193.881 768.887H193.811L192.463 772.684ZM205.4 767.516V776H204.393L199.799 769.391H199.717V776H198.662V767.516H199.682L204.275 774.137H204.357V767.516H205.4ZM206.807 768.453V767.516H213.205V768.453H210.545V776H209.479V768.453H206.807ZM214.611 776V767.516H215.666V771.289H220.154V767.516H221.221V776H220.154V772.215H215.666V776H214.611ZM230.256 771.758C230.262 774.441 228.68 776.117 226.506 776.117C224.326 776.117 222.75 774.441 222.756 771.758C222.75 769.074 224.326 767.398 226.506 767.398C228.68 767.398 230.262 769.074 230.256 771.758ZM223.775 771.758C223.781 773.943 224.971 775.127 226.506 775.133C228.041 775.127 229.23 773.943 229.236 771.758C229.23 769.566 228.041 768.383 226.506 768.383C224.971 768.383 223.781 769.566 223.775 771.758ZM231.803 776V767.516H232.857V775.062H236.795V776H231.803ZM245.045 771.758C245.051 774.441 243.469 776.117 241.295 776.117C239.115 776.117 237.539 774.441 237.545 771.758C237.539 769.074 239.115 767.398 241.295 767.398C243.469 767.398 245.051 769.074 245.045 771.758ZM238.564 771.758C238.57 773.943 239.76 775.127 241.295 775.133C242.83 775.127 244.02 773.943 244.025 771.758C244.02 769.566 242.83 768.383 241.295 768.383C239.76 768.383 238.57 769.566 238.564 771.758ZM252.381 770.164C252.018 769.074 251.191 768.383 249.979 768.383C248.479 768.383 247.289 769.566 247.283 771.758C247.289 773.943 248.479 775.127 250.049 775.133C251.479 775.127 252.469 774.178 252.486 772.672H250.271V771.746H253.518V772.66C253.518 774.764 252.07 776.117 250.049 776.117C247.781 776.117 246.258 774.441 246.264 771.758C246.258 769.074 247.799 767.398 249.979 767.398C251.771 767.398 253.154 768.523 253.471 770.164H252.381ZM254.104 767.516H255.311L257.643 771.453H257.748L260.08 767.516H261.299L258.229 772.52V776H257.162V772.52L254.104 767.516Z" fill="#fff"/></svg>
   </section>
+  <div class="toast" id="toast" role="status"></div>
+  <div id="gtWidget" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none;left:-9999px"></div>
 </div>
 
 <script>
@@ -545,7 +560,7 @@ function render() {
       ${w.cover ? `<img src="${w.cover}" alt="" loading="lazy">` : ""}
       <span class="c-tags">${w.tags.map(t => `<span class="c-tag">${esc(T(t))}</span>`).join("")}</span>
       <span class="c-title">${esc(T(w.title))}</span>
-      <span class="c-author">${esc(w.author)}</span>
+      <span class="c-author notranslate" translate="no">${esc(w.author)}</span>
     </button>`;
   /* 끝없이 순환: 뒤에 4장을 한 번 더 붙여 두고, 복제본에 닿으면 몰래 처음으로 되돌림 */
   $("cartoonRail").innerHTML = DATA.cartoon.map((w, i) => card(w, i, false)).join("") + DATA.cartoon.map((w, i) => card(w, i, true)).join("");
@@ -553,7 +568,7 @@ function render() {
   $("fictionRows").innerHTML = DATA.fiction.map((w, i) => `
     <button class="m-row rv${i === activeRow ? " on" : ""}" type="button" data-kind="fiction" data-i="${i}" aria-label="${esc(w.author)}, ${esc(T(w.title))}">
       <span class="r-av">${w.avatar ? `<img src="${w.avatar}" alt="">` : ""}</span>
-      <span class="r-author">${esc(w.author)}</span>
+      <span class="r-author notranslate" translate="no">${esc(w.author)}</span>
       <span class="r-title">${esc(T(w.title))}</span>
       <span class="r-tags">${w.tags.map(t => esc(T(t))).join(" • ")}</span>
       <svg class="r-chev" viewBox="0 0 7 13" aria-hidden="true"><path d="M1 1 L6 6.5 L1 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -649,13 +664,16 @@ function openDetail(w) {
     detail.scrollTop = 0;
     detail.setAttribute("aria-hidden", "false");
     detail.classList.add("show");
+    mountCtrl("detail");
   }, "#222");
+  if (lang !== "ko" && sample) translateStrings(parasOf(w).concat(w.title)).then(fillDetail).catch(() => {});
 }
 function closeDetail() {
   whiteOut(() => {
     detail.classList.remove("show");
     detail.setAttribute("aria-hidden", "true");
     current = null;
+    mountCtrl("list");
   }, "#222");
 }
 $("back").addEventListener("click", closeDetail);
@@ -883,6 +901,148 @@ onboard.addEventListener("wheel", obFinish, { passive: true });
 onboard.addEventListener("touchmove", obFinish, { passive: true });
 addEventListener("keydown", e => { if (!obDone && ["Enter", " ", "Escape", "ArrowDown"].includes(e.key)) { e.preventDefault(); obFinish(); } });
 requestAnimationFrame(obStart);
+
+/* ---------- 오른쪽 위 버튼 위치: 온보딩 · 목록 · 상세 ---------- */
+const ctrl = $("ctrl");
+function mountCtrl(where) {
+  const host = where === "detail" ? detail.querySelector(".d-head") : listView.querySelector(".m-bar");
+  if (ctrl.parentNode !== host) host.appendChild(ctrl);
+  closeMenu();
+}
+
+/* ---------- 번역: Vercel에서는 구글 번역(/api/translate), claude.ai 안에서는 열람자의 Claude ---------- */
+const LANGS = [["ko", "한국어 (원문)"], ["en", "English"], ["ja", "日本語"], ["zh", "简体中文"], ["es", "Español"], ["fr", "Français"]];
+const LANG_NAME = { en: "English", ja: "Japanese", zh: "Simplified Chinese", es: "Spanish", fr: "French" };
+const langBtn = $("langBtn"), langMenu = $("langMenu"), toast = $("toast");
+let sample = null, busy = false;
+function showToast(msg) {
+  toast.textContent = msg; toast.classList.add("on");
+  clearTimeout(showToast.t); showToast.t = setTimeout(() => toast.classList.remove("on"), msg.length > 30 ? 6000 : 2600);
+}
+function buildMenu() {
+  langMenu.innerHTML = LANGS.map(([code, label]) =>
+    `<button type="button" role="menuitemradio" aria-checked="${code === lang}" data-lang="${code}">${label}</button>`).join("")
+    + `<p class="note">${sample ? "Claude가 번역해요. 처음 한 번 사용 허락을 물어요." : "Google 번역으로 번역해요."}</p>`;
+}
+function closeMenu() { langMenu.hidden = true; langBtn.setAttribute("aria-expanded", "false"); }
+langBtn.addEventListener("click", e => {
+  e.stopPropagation();
+  if (busy) return;
+  buildMenu();
+  langMenu.hidden = !langMenu.hidden;
+  langBtn.setAttribute("aria-expanded", String(!langMenu.hidden));
+});
+langMenu.addEventListener("click", e => {
+  e.stopPropagation();
+  const b = e.target.closest("[data-lang]"); if (!b) return;
+  closeMenu();
+  switchLang(b.dataset.lang);
+});
+addEventListener("pointerdown", e => { if (!langMenu.hidden && !e.target.closest("#ctrl")) closeMenu(); });
+["wheel", "pointerdown", "touchstart"].forEach(t => ctrl.addEventListener(t, e => e.stopPropagation(), { passive: true }));
+
+function staticSources() {
+  const set = new Set();
+  document.querySelectorAll("[data-i18n]").forEach(el => set.add(el.dataset.i18n));
+  Object.values(DATA).flat().forEach(w => { set.add(w.title); w.tags.forEach(t => set.add(t)); });
+  return [...set];
+}
+const GOOGLE_CODE = { en: "en", ja: "ja", zh: "zh-CN", es: "es", fr: "fr" };
+/* 구글 번역 웹사이트 위젯(키·서버 불필요). 숨긴 선택 상자를 우리 메뉴로 조작 */
+let gtReady = null;
+function loadGoogleWidget() {
+  if (gtReady) return gtReady;
+  gtReady = new Promise((resolve, reject) => {
+    window.gtInit = () => {
+      try { new google.translate.TranslateElement({ pageLanguage: "ko", autoDisplay: false }, "gtWidget"); }
+      catch (e) { reject({ code: "upstream_error", why: "[위젯 초기화 실패]" }); return; }
+      const t0 = Date.now();
+      (function wait() {
+        const c = document.querySelector("#gtWidget select.goog-te-combo");
+        if (c && c.options.length > 1) return resolve(c);
+        if (Date.now() - t0 > 10000) return reject({ code: "upstream_error", why: "[구글 번역을 불러오지 못했어요]" });
+        setTimeout(wait, 120);
+      })();
+    };
+    const sc = document.createElement("script");
+    sc.src = "https://translate.google.com/translate_a/element.js?cb=gtInit";
+    sc.onerror = () => { gtReady = null; reject({ code: "upstream_error", why: "[구글 번역에 연결하지 못했어요]" }); };
+    document.head.appendChild(sc);
+  });
+  gtReady.catch(() => { gtReady = null; });
+  return gtReady;
+}
+function clearGtCookie() {
+  const exp = "expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+  document.cookie = `googtrans=; ${exp}`;
+  document.cookie = `googtrans=; ${exp}; domain=${location.hostname}`;
+  document.cookie = `googtrans=; ${exp}; domain=.${location.hostname}`;
+}
+function restoreOriginal() {                          // 위젯이 붙인 번역을 원문으로 되돌림
+  const fr = document.querySelector("iframe.skiptranslate, .goog-te-banner-frame, iframe[id=':1.container']");
+  const btn = fr && fr.contentDocument && [...fr.contentDocument.querySelectorAll("button, a")].find(b => /restore|원본|원문|show original/i.test(b.id + b.textContent));
+  if (btn) { btn.click(); clearGtCookie(); return true; }
+  const c = document.querySelector("#gtWidget select.goog-te-combo");
+  if (c) { c.value = "ko"; c.dispatchEvent(new Event("change")); }
+  clearGtCookie();
+  return !document.documentElement.classList.contains("translated-ltr");
+}
+async function widgetSwitch(to) {
+  const combo = await loadGoogleWidget();
+  const code = GOOGLE_CODE[to] || to;
+  if (![...combo.options].some(o => o.value === code)) throw { code: "upstream_error", why: "[지원하지 않는 언어]" };
+  combo.value = code;
+  combo.dispatchEvent(new Event("change"));
+}
+async function translateStrings(src, to = lang) {
+  if (to === "ko") return;
+  const d = DICT[to] || (DICT[to] = {});
+  const todo = [...new Set(src)].filter(s => !(s in d));
+  if (!todo.length) return;
+  const chunks = []; let cur = [], size = 0;
+  todo.forEach(s => { if ((size + s.length > 6000 || cur.length >= 100) && cur.length) { chunks.push(cur); cur = []; size = 0; } cur.push(s); size += s.length; });
+  if (cur.length) chunks.push(cur);
+  for (const chunk of chunks) {
+    const out = await sample.json(
+      `Translate each Korean string in the JSON array below into natural ${LANG_NAME[to]} for a literary anthology website. ` +
+      `Keep the meaning and tone; translate placeholder text literally. Keep pen names and the logo text "An Invitation" unchanged. ` +
+      `Reply with only a JSON array of strings, same order and same length (${chunk.length} items).\n\n` + JSON.stringify(chunk),
+      { modelTier: "quick", cache: { gcTime: 86400000 } });
+    if (!Array.isArray(out) || out.length !== chunk.length) throw { code: "invalid_json" };
+    chunk.forEach((s, i) => { if (typeof out[i] === "string" && out[i].trim()) d[s] = out[i]; });
+  }
+}
+async function switchLang(to) {
+  if (to === lang) return;
+  if (!sample) {                                      // 일반 웹(Vercel): 구글 번역 위젯
+    if (to === "ko") { if (!restoreOriginal()) { clearGtCookie(); location.reload(); return; } lang = "ko"; return; }
+    busy = true; langBtn.classList.add("busy");
+    try { await widgetSwitch(to); lang = to; }
+    catch (e) { console.warn("google widget", e); showToast(e && e.why ? `번역 실패 ${e.why}` : "번역하지 못했어요. 다시 눌러 주세요"); }
+    finally { busy = false; langBtn.classList.remove("busy"); }
+    return;
+  }
+  if (to === "ko") { lang = "ko"; applyStatic(); render(true); fillDetail(); return; }
+  busy = true; langBtn.classList.add("busy"); langBtn.setAttribute("aria-label", "번역 중");
+  try {
+    const src = staticSources().concat(current ? parasOf(current) : []);
+    await translateStrings(src, to);
+    lang = to; applyStatic(); render(true); fillDetail();
+  } catch (e) {
+    const code = e && e.code;
+    if (code === "not_granted" || code === "sampling_disabled" || code === "not_declared" || code === "capability_disabled") {
+      langBtn.hidden = true; showToast("이 화면에서는 번역을 쓸 수 없어요");
+    } else if (code === "rate_limited") showToast("요청이 많아요. 잠시 뒤 다시 눌러 주세요");
+    else if (code !== "cancelled") { console.warn("translate", e); showToast(e && e.why ? `번역 실패 ${e.why}` : "번역하지 못했어요. 다시 눌러 주세요"); }
+  } finally {
+    busy = false; langBtn.classList.remove("busy"); langBtn.setAttribute("aria-label", "번역");
+  }
+}
+(async () => {
+  if (!window.claude) return;                       // Vercel 등 일반 웹: 구글 번역 사용
+  try { sample = await window.claude.use("sample"); } catch (e) { sample = null; }
+  langBtn.hidden = !sample;                        // claude.ai 안에서 Claude를 못 쓰면 숨김
+})();
 
 render();
 </script>

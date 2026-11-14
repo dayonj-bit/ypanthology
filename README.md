@@ -14,3 +14,6 @@
 Framework Preset: **Other**, Build Command 없음, Output Directory 기본값.
 GitHub에 올릴 때 `index.html` 이 저장소 맨 위(루트)에 있어야 합니다.
 
+
+## 번역
+오른쪽 위 번역 아이콘은 Google 번역 웹사이트 위젯을 씁니다. API 키·서버 설정이 필요 없습니다.
