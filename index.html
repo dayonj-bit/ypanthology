@@ -389,7 +389,12 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* 구글 번역 위젯: 기본 막대·말풍선·하이라이트 숨김 */
 iframe.skiptranslate, .goog-te-banner-frame, .goog-te-balloon-frame, #goog-gt-tt, .goog-tooltip,
 .VIpgJd-ZVi9od-ORHb-OEVmcd, .VIpgJd-ZVi9od-aZ2wEe-wOHMyf, .VIpgJd-yAWNEb-L7lbkb { display: none !important; }
-body { top: 0 !important; position: static !important; }
+html, body { top: 0 !important; margin-top: 0 !important; }
+body { position: static !important; min-height: 0 !important; }
+/* 구글이 body에 끼워 넣는 요소가 레이아웃(그리드 행)을 차지하지 않게 */
+body > :not(.device) { position: fixed !important; left: -9999px !important; top: 0 !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }
+body > .device { grid-area: 1 / 1; }
+html.translated-ltr .device, html.translated-rtl .device { height: 100% !important; }
 .goog-text-highlight, font font { background: none !important; box-shadow: none !important; }
 .toast {
   position: absolute; z-index: 45; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 10px);
