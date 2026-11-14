@@ -942,7 +942,7 @@ function staticSources() {
   return [...set];
 }
 const GOOGLE_CODE = { en: "en", ja: "ja", zh: "zh-CN", es: "es", fr: "fr" };
-async function googleTranslate(chunk, to) {
+async function googleViaServer(chunk, to) {
   const res = await fetch("/api/translate", {
     method: "POST", headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ q: chunk, target: GOOGLE_CODE[to] || to, source: "ko" }),
@@ -953,7 +953,31 @@ async function googleTranslate(chunk, to) {
     throw { code: res.status === 429 ? "rate_limited" : "upstream_error", why: `[${res.status}] ${why}`.trim() };
   }
   const data = await res.json();
+  if (!Array.isArray(data.translations)) throw { code: "upstream_error", why: "[응답 오류]" };
   return data.translations;
+}
+async function googleInBrowser(chunk, to) {           // 서버가 안 될 때 브라우저에서 직접 구글 번역
+  const tl = GOOGLE_CODE[to] || to, out = new Array(chunk.length); let i = 0;
+  const one = async t => {
+    if (!t.trim()) return t;
+    const r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&sl=ko&tl=${tl}`, {
+      method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body: "q=" + encodeURIComponent(t),
+    });
+    if (!r.ok) throw new Error(r.status);
+    const j = await r.json(); return (j[0] || []).map(seg => seg[0] || "").join("");
+  };
+  const worker = async () => { while (i < chunk.length) { const n = i++; out[n] = await one(chunk[n]); } };
+  await Promise.all(Array.from({ length: Math.min(6, chunk.length) }, worker));
+  return out;
+}
+async function googleTranslate(chunk, to) {
+  try { return await googleViaServer(chunk, to); }
+  catch (e) {
+    if (e && e.code === "rate_limited") throw e;
+    try { return await googleInBrowser(chunk, to); }
+    catch (e2) { console.warn("browser translate", e2); throw e; }
+  }
 }
 async function translateStrings(src, to = lang) {
   if (to === "ko") return;
