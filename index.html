@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wedding · YoungK &amp; Wonpil</title>
+<link rel="preload" as="image" href="bg.webp">
+<link rel="preload" as="font" type="font/woff2" href="pretendard-sub.woff2" crossorigin>
+<style>
+@font-face{font-family:"Pretendard";src:url(pretendard-sub.woff2) format("woff2");font-weight:45 920;font-display:swap}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--frame:min(100vw,480px);--u:calc(var(--frame) / 402);--red:#C42128}
+html{background:#ecebe8}
+body{font-family:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+     color:#000;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;word-break:keep-all}
+body.locked{overflow:hidden;height:100dvh;touch-action:none}
+img{display:block;max-width:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+.frame{position:relative;width:var(--frame);margin:0 auto;background:#fff;overflow:hidden}
+.abs{position:absolute}
+.ctr{position:absolute;left:50%;transform:translate(-50%,-50%);white-space:nowrap;line-height:1}
+.block{position:relative;width:100%}
+
+/* ===== 등장 애니메이션 ===== */
+.rv{opacity:0;transform:translateY(calc(var(--u)*14));transition:opacity .9s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.ctr.rv{transform:translate(-50%,calc(-50% + var(--u)*14))}
+.ctr.rv.in{transform:translate(-50%,-50%)}
+.deco{opacity:0;transform:scale(.85) rotate(-6deg);transition:opacity .9s ease,transform 1.2s cubic-bezier(.2,.8,.2,1.2)}
+.deco.in{opacity:1;transform:none}
+.sway{animation:sway 5s ease-in-out infinite;transform-origin:50% 0}
+@keyframes sway{0%,100%{rotate:0deg}50%{rotate:2.5deg}}
+@media (prefers-reduced-motion:reduce){.rv,.deco{transition:none;opacity:1;transform:none}.ctr.rv{transform:translate(-50%,-50%)}.sway{animation:none}}
+
+/* ===== 1. 표지 + 초대글 + 날짜 ===== */
+.s1{height:calc(var(--u)*1611)}
+.s1 .small{font-size:calc(var(--u)*12);letter-spacing:-.01em}
+.para{left:0;right:0;text-align:center;font-size:calc(var(--u)*12);line-height:calc(var(--u)*20);letter-spacing:-.02em}
+.bigdate{font-size:calc(var(--u)*24);font-weight:600;letter-spacing:-.01em}
+.cal{left:calc(var(--u)*40);width:calc(var(--u)*322);font-size:calc(var(--u)*10.5)}
+.cal span{position:absolute;transform:translate(-50%,-50%);line-height:1;font-variant-numeric:tabular-nums}
+.cal .on{width:calc(var(--u)*20);height:calc(var(--u)*20);border-radius:50%;background:var(--red);color:#fff;font-weight:700;
+         display:flex;align-items:center;justify-content:center}
+.cd-l{font-size:calc(var(--u)*11.5);font-weight:500}
+.cd-n{font-size:calc(var(--u)*20);font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.cd-n.tick{animation:tick .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes tick{from{opacity:0;translate:0 calc(var(--u)*-8)}to{opacity:1;translate:0 0}}
+.cd-c{font-size:calc(var(--u)*12);font-weight:600}
+.dday{font-size:calc(var(--u)*12)}
+.dday b{color:var(--red);font-weight:700;margin:0 calc(var(--u)*3)}
+.divider{left:0;right:0;top:calc(var(--u)*1597);height:calc(var(--u)*14);background:#E2E2E2;
+         box-shadow:inset 0 calc(var(--u)*4) calc(var(--u)*4) rgba(0,0,0,.17)}
+
+/* ===== 섹션 제목 (리본 + 글자) ===== */
+.stitle{display:flex;flex-direction:column;align-items:center}
+.stitle img{width:calc(var(--u)*90)}
+.stitle h2{margin-top:calc(var(--u)*3);font-size:calc(var(--u)*12);font-weight:400;line-height:1.2}
+
+/* ===== 2. 갤러리 ===== */
+.s2{padding:calc(var(--u)*48) 0 calc(var(--u)*72)}
+.gview{margin-top:calc(var(--u)*44);overflow:hidden;touch-action:pan-y}
+.gtrack{display:flex;transition:transform .5s cubic-bezier(.3,.7,.2,1)}
+.gpage{flex:0 0 100%;padding:0 calc(var(--u)*42);display:grid;grid-template-columns:repeat(3,1fr);
+       column-gap:calc(var(--u)*8);row-gap:calc(var(--u)*9);align-content:start}
+.gpage button{aspect-ratio:101/136;overflow:hidden;background:#eee}
+.gpage img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.gpage button:active img{transform:scale(.97)}
+.dots{display:flex;justify-content:center;gap:calc(var(--u)*4);margin-top:calc(var(--u)*20)}
+.dots i{width:calc(var(--u)*7);height:calc(var(--u)*7);border-radius:50%;background:#BABABA;transition:background .3s}
+.dots i.on{background:#000}
+
+/* 사진 크게 보기 */
+.lb{position:fixed;inset:0;z-index:50;background:rgba(10,10,10,.94);display:flex;align-items:center;justify-content:center;
+    opacity:0;pointer-events:none;transition:opacity .3s;touch-action:none}
+.lb.open{opacity:1;pointer-events:auto}
+.lb img{max-width:100vw;max-height:84dvh;object-fit:contain;user-select:none;-webkit-user-drag:none}
+.lb .x{position:absolute;top:14px;right:14px;width:40px;height:40px;color:#fff;font-size:26px;line-height:40px}
+.lb .nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:64px;color:#fff;font-size:26px;opacity:.7}
+.lb .prev{left:4px}.lb .next{right:4px}
+.lb .cnt{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#bbb;font-size:12px;letter-spacing:.08em}
+
+/* ===== 3. 영상 ===== */
+.vbox{position:relative;display:block;width:100%;aspect-ratio:402/225;background:#111;overflow:hidden}
+.vbox svg{position:absolute;left:50%;top:50%;width:calc(var(--u)*56);transform:translate(-50%,-50%);transition:transform .2s}
+.vbox:active svg{transform:translate(-50%,-50%) scale(.94)}
+.vbox iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.bgm{position:fixed;z-index:30;top:calc(14px + env(safe-area-inset-top));right:max(14px,calc((100vw - var(--frame)) / 2 + 14px));
+     width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.85);color:#111;box-shadow:0 1px 6px rgba(0,0,0,.15);
+     display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
+.bgm[hidden]{display:none}
+.bgm svg{width:20px;height:20px}
+.bgm .m{display:none}.bgm.off .m{display:inline}.bgm.off .w{display:none}
+.vlink{display:block;width:max-content;margin:calc(var(--u)*10) auto 0;color:#777;font-size:calc(var(--u)*10);text-decoration:none;
+       border-bottom:.5px solid #aaa}
+
+/* ===== 4. 마음 전하실 곳 ===== */
+.s4{padding:calc(var(--u)*58) 0 calc(var(--u)*64)}
+.acc{margin-top:calc(var(--u)*30)}
+.acc + .acc{margin-top:calc(var(--u)*22)}
+.acc-h{display:flex;align-items:center;justify-content:space-between;width:100%;height:calc(var(--u)*48);
+       padding:0 calc(var(--u)*56) 0 calc(var(--u)*40);border-bottom:.5px solid #999;font-size:calc(var(--u)*14);font-weight:500;text-align:left}
+.acc-h svg{width:calc(var(--u)*13);height:calc(var(--u)*7);overflow:visible;transition:transform .35s}
+.acc.open .acc-h svg{transform:rotate(180deg)}
+.acc-b{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s cubic-bezier(.3,.7,.2,1)}
+.acc.open .acc-b{grid-template-rows:1fr}
+.acc-b > div{overflow:hidden}
+.acc-b ul{list-style:none;padding:calc(var(--u)*14) calc(var(--u)*40) calc(var(--u)*4)}
+.acc-b li{display:flex;align-items:center;justify-content:space-between;padding:calc(var(--u)*7) 0}
+.acc-b .who{font-size:calc(var(--u)*13);font-weight:500}
+.acc-b .num{display:block;font-size:calc(var(--u)*10.5);color:#777;font-weight:400;margin-top:calc(var(--u)*2)}
+.copy{width:calc(var(--u)*45);height:calc(var(--u)*18);border:.5px solid #000;border-radius:calc(var(--u)*3);
+      font-size:calc(var(--u)*9.5);line-height:1;flex:none}
+.copy:active{background:#000;color:#fff}
+
+/* ===== 5. 사진 ===== */
+.photo2{width:100%;aspect-ratio:402/269;object-fit:cover}
+
+/* ===== 6. 방명록 ===== */
+.s6{padding:calc(var(--u)*52) 0 0}
+.gb{position:relative;margin:calc(var(--u)*37) auto 0;width:calc(var(--u)*311)}
+.gb textarea{-webkit-user-select:text;user-select:text;touch-action:manipulation;-webkit-appearance:none;appearance:none;display:block;width:100%;height:calc(var(--u)*143);border:1px solid #000;border-radius:0;resize:none;
+             padding:calc(var(--u)*12);font:inherit;font-size:16px;line-height:1.5;outline:none;background:#fff;color:#000}
+.gb textarea:focus{box-shadow:0 0 0 2px rgba(0,0,0,.06)}
+.gbBox{position:relative}
+.gb .tri{position:absolute;right:calc(var(--u)*2.5);bottom:calc(var(--u)*2.5);width:calc(var(--u)*10);height:calc(var(--u)*10);pointer-events:none}
+.send{display:block;margin:calc(var(--u)*16) auto 0;width:calc(var(--u)*95);height:calc(var(--u)*29);background:#000;color:#fff;
+      font-size:calc(var(--u)*11)}
+.send:disabled{opacity:.5}
+.gbl{list-style:none;width:calc(var(--u)*311);margin:calc(var(--u)*28) auto 0}
+.gbl li{padding:calc(var(--u)*12) 0;border-top:.5px solid #ddd;font-size:calc(var(--u)*12);line-height:1.6;white-space:pre-wrap}
+.gbl li small{display:block;color:#999;font-size:calc(var(--u)*10);margin-top:calc(var(--u)*4)}
+.gbnote{text-align:center;color:#999;font-size:calc(var(--u)*10);margin-top:calc(var(--u)*10)}
+footer{padding:calc(var(--u)*80) 0 calc(var(--u)*40);text-align:center;color:#A3A3A3;font-size:calc(var(--u)*9.5)}
+
+.toast{position:fixed;left:50%;bottom:calc(28px + env(safe-area-inset-bottom));transform:translate(-50%,12px);z-index:60;
+       background:rgba(20,20,20,.88);color:#fff;font-size:13px;padding:10px 16px;border-radius:20px;opacity:0;pointer-events:none;
+       transition:opacity .25s,transform .25s;white-space:nowrap}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ===================== 온보딩 ===================== */
+#intro{position:fixed;top:0;left:50%;transform:translateX(-50%);width:var(--frame);height:100dvh;z-index:40;overflow:hidden;
+       transition:opacity .9s ease}
+#intro.gone{opacity:0;pointer-events:none}
+#intro .bg{position:absolute;inset:0;background:#f3eee2 url(bg.webp) center/cover no-repeat;transform:scale(1.04);
+           transition:transform 1.6s cubic-bezier(.2,.7,.2,1)}
+#intro.opened .bg{transform:scale(1)}
+.sheet{position:absolute;left:0;right:0;height:50%;pointer-events:none}
+.sheet.top{top:0;z-index:2}.sheet.bottom{bottom:0;z-index:1}
+.sheet .flat{position:absolute;inset:0;background:rgba(255,255,255,.8)}
+.sheet .curlWrap{position:absolute;inset:0;filter:drop-shadow(-2px 3px 5px rgba(40,30,20,.28))}
+.sheet .curl{position:absolute;inset:0;visibility:hidden}
+.seamShadow{position:absolute;left:0;right:0;top:50%;height:12px;z-index:1;pointer-events:none;
+            background:linear-gradient(rgba(0,0,0,.22),rgba(0,0,0,0));transition:opacity .35s}
+#intro.opened .seamShadow{opacity:0}
+.sticker{position:absolute;left:50%;top:50%;z-index:5;width:168.8px;height:69.6px;
+         transform:translate(-50%,-50%) scale(var(--s,1)) rotate(-7.4454deg);cursor:grab;touch-action:none;outline:none}
+.sticker .hit{position:absolute;inset:-14px}
+.layer{position:absolute;left:0;top:0;width:168.8px;height:69.6px;transform-origin:0 0}
+.face,.back{width:100%;height:100%;border-radius:7.2px;overflow:hidden}
+.sticker .flat{filter:drop-shadow(0 1.6px .8px rgba(0,0,0,.23))}
+.face svg{display:block;width:100%;height:100%}
+.back{background:linear-gradient(115deg,#d2d2d2 0%,#eeeeee 45%,#c9c9c9 100%)}
+.flapWrap{filter:drop-shadow(0 2px 3px rgba(0,0,0,.28));pointer-events:none}
+.flap{visibility:hidden}
+.sticker.fly{transition:transform .7s cubic-bezier(.4,0,.7,.2),opacity .5s ease .2s;opacity:0;
+             transform:translate(calc(-50% + 70vw),calc(-50% - 60vh)) scale(var(--s,1)) rotate(28deg)}
+.hint .flat .face{animation:breathe 2.8s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:none}50%{transform:translateY(-1px)}}
+@media (prefers-reduced-motion:reduce){#intro .bg{transition:none}.hint .flat .face{animation:none}}
+</style>
+</head>
+<body class="locked">
+
+<!-- ===================== 메인 ===================== -->
+<div class="frame" id="main">
+
+  <!-- 1. 표지 · 초대글 · 날짜 -->
+  <section class="block s1">
+    <img class="abs deco" data-d="900" src="bouquet.webp" alt="" style="left:calc(var(--u)*331.67);top:calc(var(--u)*84.33);width:calc(var(--u)*70.33)">
+    <img class="abs deco" data-d="1000" src="heart.webp" alt="" style="left:calc(var(--u)*0);top:calc(var(--u)*232.33);width:calc(var(--u)*81)">
+    <img class="abs deco" data-d="1100" src="rings.webp" alt="" style="left:calc(var(--u)*315.33);top:calc(var(--u)*358);width:calc(var(--u)*52)">
+
+    <p class="ctr rv small" data-d="0" style="top:calc(var(--u)*97.75)">The Wedding of</p>
+    <h1 aria-label="YOUNGHYUN &amp; WONPIL">
+      <img class="abs rv" data-d="150" src="name-younghyun.svg" alt="" style="left:calc(var(--u)*106);top:calc(var(--u)*172);width:calc(var(--u)*190)">
+      <img class="abs rv" data-d="330" src="name-amp.svg" alt="" style="left:calc(var(--u)*190);top:calc(var(--u)*212);width:calc(var(--u)*22)">
+      <img class="abs rv" data-d="480" src="name-wonpil.svg" alt="" style="left:calc(var(--u)*140);top:calc(var(--u)*246);width:calc(var(--u)*124)">
+    </h1>
+    <p class="ctr rv small" data-d="650" style="top:calc(var(--u)*342.5)">2026.12.25 12PM</p>
+    <p class="ctr rv small" data-d="720" style="top:calc(var(--u)*362.5)">Niagara Wedding Chapel, CANADA</p>
+    <img class="abs rv" data-d="850" src="hero.webp" alt="두 사람의 흑백 사진" style="left:calc(var(--u)*43);top:calc(var(--u)*430);width:calc(var(--u)*316);height:calc(var(--u)*334);object-fit:cover">
+
+    <!-- 초대글 -->
+    <img class="abs deco sway" src="ribbonR.webp" alt="" style="left:calc(var(--u)*324);top:calc(var(--u)*787.33);width:calc(var(--u)*78)">
+    <img class="abs deco sway" src="ribbonL.webp" alt="" style="left:calc(var(--u)*0);top:calc(var(--u)*873.33);width:calc(var(--u)*81.33);animation-delay:-2.2s">
+    <img class="abs rv" src="invitation-title.svg" alt="Wedding Invitation" style="left:calc(var(--u)*118);top:calc(var(--u)*870);width:calc(var(--u)*165)">
+    <p class="abs para rv" style="top:calc(var(--u)*932.5)">추운 겨울, 두 사람의 온기를 모아<br>함께할 날들을 따뜻하게 밝히고자 합니다.<br>서로의 영원을 약속하는 자리에 함께하시어<br>저희의 시작을 빛내 주세요.</p>
+
+    <!-- 날짜 · 달력 -->
+    <p class="ctr rv bigdate" style="top:calc(var(--u)*1128.4)">2026.12.25</p>
+    <p class="ctr rv small" style="top:calc(var(--u)*1160)">금요일 오후 12시</p>
+    <div class="abs cal rv" id="cal" style="top:calc(var(--u)*1200);height:calc(var(--u)*160)" aria-label="2026년 12월 달력"></div>
+
+    <!-- 카운트다운 -->
+    <div class="rv" id="cd">
+      <span class="ctr cd-l" style="top:calc(var(--u)*1395);left:calc(var(--u)*81)">Days</span>
+      <span class="ctr cd-l" style="top:calc(var(--u)*1395);left:calc(var(--u)*161)">Hours</span>
+      <span class="ctr cd-l" style="top:calc(var(--u)*1395);left:calc(var(--u)*241)">Min</span>
+      <span class="ctr cd-l" style="top:calc(var(--u)*1395);left:calc(var(--u)*321)">Sec</span>
+      <span class="ctr cd-n" id="cdD" style="top:calc(var(--u)*1419);left:calc(var(--u)*81)">00</span>
+      <span class="ctr cd-c" style="top:calc(var(--u)*1418);left:calc(var(--u)*121)">:</span>
+      <span class="ctr cd-n" id="cdH" style="top:calc(var(--u)*1419);left:calc(var(--u)*161)">00</span>
+      <span class="ctr cd-c" style="top:calc(var(--u)*1418);left:calc(var(--u)*201)">:</span>
+      <span class="ctr cd-n" id="cdM" style="top:calc(var(--u)*1419);left:calc(var(--u)*241)">00</span>
+      <span class="ctr cd-c" style="top:calc(var(--u)*1418);left:calc(var(--u)*281)">:</span>
+      <span class="ctr cd-n" id="cdS" style="top:calc(var(--u)*1419);left:calc(var(--u)*321)">00</span>
+    </div>
+    <p class="ctr rv dday" style="top:calc(var(--u)*1457.5)" id="dday">결혼식이<b>0</b>일 남았습니다.</p>
+
+    <div class="abs divider"></div>
+  </section>
+
+  <!-- 2. 웨딩 갤러리 -->
+  <section class="block s2">
+    <div class="stitle rv"><img src="bow.webp" alt=""><h2>웨딩 갤러리</h2></div>
+    <div class="gview rv" id="gview"><div class="gtrack" id="gtrack"></div></div>
+    <div class="dots" id="dots"></div>
+  </section>
+
+  <!-- 3. 영상 (누르면 재생) -->
+  <section class="block video rv">
+    <button class="vbox" id="vbox" aria-label="영상 재생">
+      <svg viewBox="0 0 68 48" aria-hidden="true"><path d="M66.5 7.7A8.5 8.5 0 0 0 60.5 1.7C55.2.3 34 .3 34 .3s-21.2 0-26.5 1.4a8.5 8.5 0 0 0-6 6C.1 13 .1 24 .1 24s0 11 1.4 16.3a8.5 8.5 0 0 0 6 6c5.3 1.4 26.5 1.4 26.5 1.4s21.2 0 26.5-1.4a8.5 8.5 0 0 0 6-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z" fill="#fff" fill-opacity=".92"/><path d="M27 34l18-10-18-10z" fill="#111"/></svg>
+    </button>
+    <a class="vlink" href="https://youtu.be/TU0q9CW3Xmo" target="_blank" rel="noopener">YouTube에서 보기</a>
+  </section>
+
+  <!-- 4. 마음 전하실 곳 -->
+  <section class="block s4">
+    <div class="stitle rv"><img src="bow.webp" alt=""><h2>마음 전하실 곳</h2></div>
+    <div id="accounts"></div>
+  </section>
+
+  <!-- 5. 사진 -->
+  <img class="photo2 rv" src="flowers.webp" alt="꽃다발을 건네는 두 사람">
+
+  <!-- 6. 방명록 -->
+  <section class="block s6">
+    <div class="stitle rv"><img src="bow.webp" alt=""><h2>방명록</h2></div>
+    <form class="gb rv" id="gbForm">
+      <div class="gbBox">
+        <textarea id="gbText" maxlength="300" aria-label="축하 메시지"></textarea>
+        <svg class="tri" viewBox="344 3542 10 10" aria-hidden="true"><path d="M354 3542V3552H344L354 3542Z"/></svg>
+      </div>
+      <button class="send" type="submit" id="gbSend">전송하기</button>
+    </form>
+  </section>
+
+  <footer>© dope. All Rights Reserved.</footer>
+</div>
+
+<!-- 사진 크게 보기 -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="사진 크게 보기">
+  <img id="lbImg" alt="">
+  <button class="nav prev" id="lbPrev" aria-label="이전 사진">‹</button>
+  <button class="nav next" id="lbNext" aria-label="다음 사진">›</button>
+  <button class="x" id="lbX" aria-label="닫기">×</button>
+  <div class="cnt" id="lbCnt"></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<button class="bgm" id="bgm" hidden aria-label="소리 끄기">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/>
+    <path class="w" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path class="m" d="M16 9.5l5 5M21 9.5l-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+</button>
+
+<!-- ===================== 온보딩 ===================== -->
+<div id="intro">
+  <div class="bg" aria-hidden="true"></div>
+  <div class="sheet top" id="sTop" aria-hidden="true"><div class="flat"></div><div class="curlWrap"><div class="curl"></div></div></div>
+  <div class="seamShadow" aria-hidden="true"></div>
+  <div class="sheet bottom" id="sBot" aria-hidden="true"><div class="flat"></div><div class="curlWrap"><div class="curl"></div></div></div>
+  <div class="sticker hint" id="sticker" role="button" tabindex="0" aria-label="스티커를 떼어 청첩장 열기">
+    <div class="hit"></div>
+    <div class="layer flat" id="sFlat"><div class="face"><svg viewBox="0 0 168.8 69.6" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="stg" x1="279.577" y1="400.771" x2="117.273" y2="467.516" gradientUnits="userSpaceOnUse"><stop stop-color="#DFDFDF"/><stop offset="0.506846" stop-color="white"/><stop offset="1" stop-color="#D4D4D4"/></linearGradient></defs><g transform="translate(-113.302 -397.93) rotate(7.4454 113.302 397.93)"><rect x="113.302" y="397.93" width="168.8" height="69.6" rx="7.2" transform="rotate(-7.4454 113.302 397.93)" fill="url(#stg)"/><path d="M183.717 416.159L181.451 410.751L182.155 410.659L183.918 415.046L183.973 415.039L184.565 410.344L185.347 410.242L187.133 414.626L187.18 414.619L187.756 409.927L188.461 409.835L187.66 415.644L186.94 415.738L185.136 411.459L185.089 411.465L184.438 416.065L183.717 416.159ZM192.028 415.16C190.812 415.323 189.948 414.553 189.779 413.263C189.61 411.97 190.256 410.971 191.398 410.822C192.281 410.707 193.286 411.127 193.485 412.685L193.522 412.963L190.47 413.362C190.621 414.249 191.204 414.669 191.951 414.571C192.455 414.505 192.744 414.243 192.865 413.963L193.577 413.87C193.463 414.535 192.896 415.05 192.028 415.16ZM190.4 412.796L192.774 412.486C192.678 411.785 192.169 411.32 191.475 411.411C190.747 411.506 190.361 412.139 190.4 412.796ZM197.028 414.506C195.979 414.648 195.129 413.9 194.954 412.564C194.78 411.231 195.41 410.298 196.468 410.16C197.285 410.053 197.605 410.515 197.778 410.721L197.825 410.715L197.554 408.647L198.228 408.559L198.961 414.167L198.31 414.252L198.226 413.609L198.157 413.618C198.04 413.87 197.83 414.406 197.028 414.506ZM195.626 412.46C195.743 413.355 196.245 414.002 197.043 413.898C197.814 413.797 198.155 413.091 198.035 412.145C197.909 411.212 197.413 410.643 196.631 410.745C195.821 410.851 195.511 411.581 195.626 412.46ZM202.508 413.79C201.459 413.931 200.608 413.184 200.434 411.847C200.26 410.515 200.89 409.582 201.948 409.443C202.765 409.337 203.085 409.799 203.258 410.005L203.304 409.999L203.034 407.931L203.708 407.842L204.441 413.451L203.79 413.536L203.706 412.893L203.637 412.902C203.52 413.154 203.31 413.689 202.508 413.79ZM201.106 411.744C201.223 412.639 201.725 413.286 202.523 413.182C203.294 413.081 203.635 412.375 203.515 411.429C203.389 410.496 202.893 409.927 202.111 410.029C201.301 410.135 200.991 410.865 201.106 411.744ZM206.389 413.196L205.839 408.99L206.505 408.903L207.055 413.109L206.389 413.196ZM205.558 407.869C205.522 407.621 205.709 407.396 205.965 407.366C206.221 407.329 206.459 407.499 206.496 407.746C206.524 407.991 206.337 408.216 206.081 408.249C205.825 408.283 205.586 408.113 205.558 407.869ZM209.246 410.255L209.576 412.78L208.909 412.867L208.36 408.661L209.003 408.577L209.089 409.235L209.143 409.228C209.284 408.772 209.642 408.438 210.281 408.354C211.134 408.243 211.771 408.688 211.907 409.757L212.256 412.43L211.59 412.517L211.246 409.891C211.161 409.24 210.754 408.899 210.158 408.977C209.546 409.057 209.15 409.526 209.246 410.255ZM216.04 413.629C215.021 413.762 214.274 413.407 214.098 412.638L214.796 412.547C214.941 412.965 215.368 413.126 215.964 413.048C216.685 412.954 217.085 412.583 216.995 411.889L216.883 411.037L216.829 411.044C216.716 411.295 216.511 411.807 215.698 411.917C214.675 412.047 213.807 411.376 213.634 410.051C213.465 408.758 214.1 407.855 215.157 407.717C215.974 407.61 216.303 408.072 216.483 408.277L216.537 408.27L216.45 407.603L217.101 407.518L217.666 411.841C217.804 412.926 217.067 413.495 216.04 413.629ZM214.311 409.987C214.425 410.858 214.915 411.413 215.713 411.308C216.484 411.207 216.838 410.598 216.721 409.672C216.599 408.77 216.103 408.2 215.32 408.303C214.511 408.408 214.2 409.138 214.311 409.987Z" fill="black"/>
+<path d="M153.751 438.887C153.318 439.595 152.44 440.253 151.117 440.862C150.81 442.331 150.344 443.445 149.718 444.205C149.092 444.964 148.395 445.394 147.625 445.494C147.233 445.546 146.904 445.478 146.638 445.293C146.373 445.112 146.217 444.846 146.171 444.495C146.026 443.384 146.998 442.304 149.088 441.254L149.171 440.502C149.41 438.354 149.566 437.07 149.637 436.651L149.885 435.114C149.843 435.23 149.755 435.507 149.623 435.944C148.992 438.065 148.376 439.54 147.775 440.369C147.174 441.194 146.535 441.65 145.858 441.739C145.342 441.806 144.895 441.66 144.517 441.299C144.144 440.938 143.915 440.433 143.83 439.782C143.723 438.966 143.85 437.683 144.209 435.935C144.574 434.185 144.72 433.031 144.647 432.474C144.603 432.133 144.476 431.863 144.266 431.665C144.061 431.46 143.821 431.376 143.547 431.412C143.124 431.467 142.757 431.754 142.447 432.273C142.136 432.791 142.016 433.319 142.086 433.856C142.15 434.347 142.378 434.722 142.769 434.98C142.908 435.078 142.981 435.16 142.99 435.227C143.01 435.382 142.935 435.61 142.764 435.911C142.598 436.206 142.414 436.366 142.213 436.393C141.996 436.421 141.767 436.296 141.526 436.017C141.29 435.738 141.149 435.428 141.105 435.088C140.985 434.174 141.203 433.231 141.759 432.26C142.315 431.289 143.058 430.743 143.988 430.622C144.649 430.535 145.223 430.726 145.709 431.192C146.2 431.654 146.5 432.297 146.608 433.124C146.737 434.115 146.599 435.53 146.193 437.369C145.918 438.64 145.813 439.525 145.879 440.026C145.939 440.491 146.14 440.701 146.481 440.657C147.111 440.574 147.793 439.524 148.527 437.506C149.261 435.482 149.849 433.086 150.291 430.318C150.309 430.179 150.36 430.083 150.442 430.03C150.53 429.977 150.833 429.885 151.351 429.754C151.875 429.622 152.155 429.554 152.191 429.55C152.326 429.532 152.39 429.563 152.385 429.642L152.186 431.378L151.672 436.787C151.601 437.532 151.464 438.634 151.261 440.095C152.281 439.62 153.072 438.921 153.634 437.996L153.751 438.887ZM148.991 441.96C148.251 442.324 147.681 442.727 147.282 443.168C146.883 443.614 146.706 444.007 146.751 444.348C146.776 444.539 146.863 444.688 147.014 444.794C147.165 444.906 147.339 444.949 147.535 444.923C147.922 444.873 148.226 444.607 148.447 444.126C148.673 443.645 148.855 442.923 148.991 441.96ZM160.699 437.979C160.466 438.246 160.232 438.445 159.997 438.575C159.761 438.701 159.571 438.773 159.427 438.792C159.055 438.84 158.667 438.744 158.262 438.502C157.666 439.726 156.887 440.4 155.926 440.525C155.327 440.604 154.813 440.442 154.382 440.042C153.951 439.641 153.688 439.069 153.59 438.325C153.437 437.148 153.723 436.083 154.45 435.132C155.175 434.176 156.119 433.622 157.281 433.47C157.72 433.413 158.047 433.42 158.261 433.492C158.48 433.558 158.621 433.652 158.684 433.775C158.748 433.898 158.792 434.058 158.818 434.254C158.944 435.22 158.836 436.439 158.492 437.913C158.788 438.121 159.08 438.207 159.369 438.169C159.715 438.124 160.12 437.763 160.583 437.088L160.699 437.979ZM157.577 433.983C157.495 433.962 157.382 433.961 157.238 433.98C156.566 434.068 156.086 434.488 155.795 435.24C155.51 435.992 155.429 436.837 155.552 437.777C155.62 438.299 155.755 438.694 155.958 438.961C156.161 439.229 156.41 439.343 156.705 439.305C157.071 439.257 157.425 438.867 157.765 438.134C157.2 437.588 156.871 436.964 156.78 436.262C156.672 435.435 156.937 434.676 157.577 433.983ZM168.973 436.898C168.375 437.633 167.867 438.185 167.448 438.555C167.028 438.92 166.635 439.126 166.268 439.174C165.86 439.227 165.524 439.106 165.259 438.809C165 438.512 164.834 438.085 164.761 437.527C164.274 438.226 163.826 438.755 163.416 439.113C163.005 439.466 162.585 439.671 162.157 439.727C161.764 439.778 161.428 439.657 161.148 439.362C160.868 439.068 160.691 438.642 160.618 438.084C160.478 437.01 160.642 435.45 161.11 433.403L163.117 432.723C162.593 435.308 162.377 436.951 162.469 437.653C162.534 438.149 162.752 438.373 163.124 438.324C163.392 438.289 163.697 438.029 164.038 437.543C164.378 437.052 164.576 436.637 164.632 436.299L165.215 432.866L167.267 432.165C166.985 433.783 166.794 434.919 166.696 435.572C166.597 436.226 166.565 436.679 166.598 436.933C166.661 437.418 166.858 437.639 167.189 437.596C167.457 437.561 167.823 437.264 168.286 436.704L168.856 436.007L168.973 436.898ZM176.58 435.904C175.552 437.32 174.611 438.084 173.759 438.195C173.413 438.24 173.118 438.155 172.875 437.94C172.632 437.725 172.483 437.414 172.43 437.006C172.358 436.453 172.475 435.579 172.78 434.383C172.944 433.742 173.014 433.339 172.993 433.174C172.971 433.008 172.896 432.934 172.767 432.951C172.694 432.961 172.604 433.009 172.494 433.097C172.395 433.184 172.282 433.301 172.154 433.449C172.041 433.584 171.915 433.748 171.777 433.939C171.656 434.102 171.528 434.287 171.392 434.494L171.024 435.054C170.864 435.311 170.777 435.572 170.764 435.837C170.744 436.286 170.745 436.695 170.767 437.065C170.788 437.341 170.828 437.711 170.889 438.176L169.229 438.803C169.082 438.113 168.985 437.598 168.941 437.257C168.832 436.425 168.825 435.625 168.919 434.856C169.018 434.087 169.221 433.21 169.528 432.224L171.371 431.613C171.113 432.734 170.962 433.61 170.918 434.241C171.642 433.185 172.228 432.444 172.676 432.018C173.129 431.585 173.549 431.344 173.937 431.293C174.2 431.259 174.433 431.331 174.635 431.509C174.836 431.683 174.956 431.919 174.995 432.219C175.06 432.714 174.945 433.559 174.649 434.754C174.446 435.573 174.36 436.099 174.39 436.332C174.431 436.642 174.578 436.78 174.831 436.747C175.208 436.698 175.752 436.12 176.463 435.013L176.58 435.904ZM184.187 434.91C183.621 435.682 182.902 436.291 182.031 436.736C181.777 438.129 181.366 439.231 180.8 440.04C180.238 440.849 179.589 441.302 178.85 441.398C178.447 441.451 178.105 441.367 177.824 441.146C177.543 440.925 177.376 440.609 177.322 440.195C177.25 439.643 177.43 439.115 177.863 438.612C178.302 438.108 179.086 437.575 180.215 437.012L180.349 435.443C179.926 436.065 179.551 436.532 179.224 436.843C178.896 437.148 178.549 437.325 178.182 437.373C177.753 437.429 177.376 437.273 177.05 436.906C176.723 436.539 176.518 436.033 176.434 435.387C176.296 434.334 176.567 433.295 177.248 432.271C177.932 431.241 178.727 430.667 179.63 430.549C180.131 430.484 180.603 430.638 181.046 431.01C181.268 430.897 181.553 430.734 181.904 430.52L182.421 430.2L182.599 430.177C182.478 430.813 182.4 431.427 182.368 432.02L182.147 435.996C182.809 435.641 183.451 434.982 184.071 434.019L184.187 434.91ZM179.232 435.817C179.598 435.769 179.895 435.51 180.123 435.039C180.35 434.568 180.498 433.989 180.566 433.303C180.639 432.616 180.658 432.143 180.624 431.885C180.593 431.642 180.505 431.451 180.361 431.313C180.221 431.168 180.061 431.108 179.88 431.131C179.332 431.203 178.903 431.634 178.592 432.426C178.28 433.218 178.174 433.996 178.274 434.761C178.321 435.117 178.43 435.392 178.602 435.584C178.779 435.771 178.989 435.849 179.232 435.817ZM180.142 437.715C178.552 438.532 177.808 439.333 177.911 440.118C177.941 440.351 178.035 440.53 178.194 440.657C178.353 440.788 178.541 440.84 178.758 440.811C179.129 440.763 179.422 440.486 179.634 439.98C179.846 439.474 180.015 438.719 180.142 437.715ZM191.096 425.86C190.552 426.157 190.083 426.331 189.691 426.382C189.412 426.419 189.045 426.385 188.591 426.282C188.141 426.178 187.821 426.138 187.63 426.163C187.289 426.208 187.014 426.38 186.807 426.681C186.599 426.976 186.519 427.312 186.568 427.689C186.625 428.122 186.871 428.479 187.307 428.758C187.45 428.85 187.526 428.924 187.533 428.981C187.544 429.069 187.447 429.247 187.24 429.515C187.039 429.783 186.856 429.928 186.69 429.95C186.51 429.973 186.309 429.845 186.088 429.564C185.868 429.282 185.737 428.982 185.695 428.662C185.585 427.825 185.825 427.006 186.414 426.204C187.002 425.402 187.694 424.949 188.49 424.845C188.794 424.806 189.183 424.844 189.655 424.961C190.132 425.072 190.471 425.114 190.672 425.088C190.982 425.048 191.239 424.885 191.444 424.601C191.516 424.508 191.585 424.457 191.652 424.448C191.719 424.439 191.834 424.45 191.995 424.482C192.162 424.513 192.25 424.559 192.258 424.621C192.264 424.667 192.147 424.895 191.906 425.305C191.665 425.71 191.492 426.137 191.388 426.586C191.284 427.036 191.217 427.693 191.189 428.558L191.151 429.532C191.088 431.463 190.895 432.841 190.572 433.666C190.253 434.485 189.802 435.127 189.216 435.592C188.636 436.056 187.979 436.337 187.246 436.432C186.549 436.523 185.91 436.439 185.33 436.179C184.755 435.918 184.441 435.583 184.387 435.175C184.361 434.974 184.503 434.698 184.815 434.347C185.125 433.991 185.358 433.803 185.513 433.783C185.756 433.751 185.903 433.932 185.954 434.324C186.113 435.422 186.534 435.927 187.216 435.838C188.274 435.699 188.816 434.394 188.839 431.922C188.853 430.865 188.955 429.932 189.143 429.125C189.336 428.312 189.987 427.223 191.096 425.86ZM197.581 433.159C197.047 433.896 196.565 434.448 196.135 434.814C195.704 435.175 195.228 435.389 194.706 435.457C194.174 435.527 193.707 435.388 193.304 435.042C192.907 434.695 192.669 434.219 192.59 433.615C192.579 433.527 192.568 433.184 192.558 432.587C192.553 431.983 192.543 431.625 192.528 431.511C192.464 431.021 192.318 430.685 192.089 430.505C192.029 430.523 191.934 430.541 191.805 430.558C191.562 430.59 191.427 430.499 191.399 430.288C191.358 429.978 191.498 429.802 191.818 429.76L192.162 429.739C192.488 429.696 192.744 429.508 192.932 429.174C193.119 428.839 193.261 428.238 193.358 427.369C193.594 425.242 194.221 424.112 195.239 423.979C195.476 423.948 195.713 424.009 195.948 424.162C196.189 424.315 196.322 424.489 196.347 424.685C196.363 424.804 196.3 425.064 196.158 425.466C196.016 425.863 195.89 426.069 195.782 426.083C195.725 426.09 195.627 426.006 195.489 425.83C195.35 425.653 195.17 425.58 194.948 425.609C194.514 425.665 194.237 426.182 194.118 427.159C193.999 428.136 193.838 428.811 193.634 429.184C193.431 429.557 193.191 429.815 192.916 429.956C193.467 430.157 193.882 430.42 194.161 430.746C194.445 431.071 194.626 431.528 194.703 432.117C194.718 432.231 194.729 432.418 194.737 432.68C194.75 432.941 194.765 433.133 194.781 433.257C194.857 433.836 195.129 434.094 195.599 434.033C196.142 433.962 196.763 433.374 197.465 432.268L197.581 433.159ZM205.424 427.517L205.339 426.867C205.188 425.715 205.366 424.72 205.871 423.882C206.375 423.039 207.076 422.558 207.975 422.441C208.471 422.376 208.911 422.431 209.297 422.607C209.687 422.782 209.902 423.016 209.94 423.311C209.963 423.481 209.822 423.715 209.52 424.012C209.217 424.309 209.027 424.462 208.95 424.472C208.789 424.493 208.672 424.356 208.597 424.061C208.526 423.761 208.414 423.526 208.26 423.357C208.106 423.183 207.915 423.11 207.688 423.14C207.409 423.177 207.213 423.386 207.101 423.768C206.988 424.151 206.973 424.662 207.057 425.303C207.19 426.325 207.508 427.466 208.008 428.724C208.509 429.982 208.958 430.866 209.355 431.376C209.753 431.886 210.145 432.116 210.533 432.066C210.899 432.018 211.204 431.794 211.446 431.395C211.54 431.272 211.608 431.208 211.649 431.203C211.716 431.194 211.794 431.226 211.882 431.298C211.971 431.371 212.018 431.43 212.024 431.477C212.044 431.632 211.825 431.986 211.367 432.54C210.909 433.093 210.372 433.41 209.758 433.49C209.293 433.551 208.859 433.466 208.456 433.235C208.058 433.004 207.65 432.616 207.232 432.071C206.669 432.744 206.157 433.252 205.698 433.596C205.244 433.939 204.735 434.147 204.172 434.22C203.558 434.301 203.029 434.173 202.586 433.837C202.142 433.496 201.88 433.02 201.801 432.411C201.593 430.82 202.801 429.189 205.424 427.517ZM206.903 431.539C206.371 430.642 205.91 429.508 205.52 428.135C204.812 428.585 204.306 429.032 204.002 429.476C203.702 429.92 203.591 430.436 203.668 431.024C203.738 431.556 203.938 432 204.268 432.356C204.602 432.707 204.956 432.857 205.327 432.809C205.544 432.78 205.762 432.681 205.982 432.511C206.206 432.339 206.513 432.016 206.903 431.539ZM223.437 429.04C222.736 430.907 221.837 431.912 220.743 432.055C220.169 432.13 219.682 431.981 219.282 431.608C218.88 431.229 218.634 430.694 218.544 430.002C218.439 429.197 218.565 427.935 218.924 426.218C219.288 424.5 219.425 423.3 219.336 422.619C219.296 422.314 219.175 422.072 218.973 421.894C218.777 421.715 218.549 421.642 218.291 421.676C217.893 421.728 217.53 422.022 217.201 422.559C216.872 423.096 216.74 423.617 216.807 424.123C216.857 424.51 217.085 424.89 217.491 425.263C217.659 425.419 217.747 425.531 217.756 425.598C217.766 425.676 217.677 425.863 217.49 426.161C217.303 426.459 217.13 426.618 216.97 426.639C216.799 426.661 216.59 426.562 216.34 426.343C216.091 426.123 215.934 425.768 215.87 425.278C215.74 424.281 215.97 423.329 216.561 422.422C217.156 421.514 217.878 421.005 218.725 420.894C219.36 420.811 219.931 421.004 220.439 421.474C220.947 421.943 221.252 422.57 221.355 423.355C221.463 424.182 221.35 425.386 221.015 426.969C220.686 428.546 220.554 429.59 220.621 430.101C220.653 430.344 220.74 430.529 220.883 430.658C221.025 430.781 221.2 430.829 221.406 430.802C221.855 430.743 222.254 430.318 222.603 429.527C222.951 428.736 223.219 427.632 223.407 426.215L223.779 423.393C223.922 422.282 224.117 421.303 224.364 420.457C224.389 420.364 224.62 420.266 225.058 420.161C225.501 420.051 225.823 419.982 226.024 419.956C226.225 419.93 226.331 419.958 226.342 420.041L225.631 425.633C225.43 427.272 225.378 428.458 225.474 429.191C225.516 429.511 225.616 429.758 225.775 429.932C225.934 430.1 226.127 430.169 226.354 430.14C226.69 430.096 227.111 429.762 227.618 429.139C228.129 428.511 228.528 427.744 228.815 426.84C229.1 425.931 229.185 425.029 229.068 424.136C228.943 423.181 228.586 422.261 227.998 421.376C227.833 421.119 227.746 420.957 227.738 420.89C227.709 420.668 227.888 420.395 228.277 420.071C228.67 419.747 228.96 419.572 229.146 419.548C229.321 419.525 229.528 419.737 229.765 420.184C230.006 420.625 230.16 421.102 230.227 421.613C230.405 422.971 230.269 424.404 229.82 425.913C229.37 427.416 228.733 428.686 227.907 429.724C227.082 430.762 226.287 431.33 225.522 431.43C224.98 431.501 224.52 431.341 224.143 430.949C223.771 430.551 223.536 429.915 223.437 429.04ZM238.413 427.823C238.18 428.09 237.946 428.289 237.711 428.419C237.476 428.545 237.285 428.617 237.141 428.636C236.769 428.684 236.381 428.588 235.976 428.347C235.38 429.57 234.601 430.244 233.641 430.369C233.042 430.448 232.527 430.286 232.096 429.886C231.666 429.485 231.402 428.913 231.305 428.169C231.151 426.992 231.437 425.927 232.164 424.976C232.89 424.02 233.834 423.466 234.996 423.314C235.435 423.257 235.761 423.264 235.975 423.336C236.194 423.402 236.335 423.496 236.399 423.619C236.462 423.742 236.506 423.902 236.532 424.098C236.658 425.064 236.55 426.283 236.207 427.757C236.502 427.965 236.794 428.051 237.083 428.013C237.429 427.968 237.834 427.607 238.297 426.932L238.413 427.823ZM235.291 423.827C235.21 423.806 235.097 423.805 234.952 423.824C234.281 423.912 233.8 424.332 233.509 425.084C233.224 425.836 233.143 426.681 233.266 427.621C233.334 428.143 233.47 428.538 233.673 428.805C233.876 429.073 234.124 429.187 234.419 429.149C234.785 429.101 235.139 428.711 235.479 427.978C234.914 427.432 234.586 426.808 234.494 426.106C234.386 425.279 234.652 424.52 235.291 423.827ZM246.021 426.829C244.992 428.245 244.052 429.009 243.2 429.12C242.854 429.165 242.559 429.08 242.316 428.865C242.072 428.65 241.924 428.339 241.871 427.931C241.798 427.378 241.915 426.504 242.221 425.309C242.384 424.667 242.455 424.264 242.434 424.099C242.412 423.934 242.337 423.86 242.207 423.876C242.135 423.886 242.044 423.935 241.935 424.022C241.836 424.109 241.723 424.226 241.595 424.374C241.481 424.51 241.356 424.673 241.218 424.865C241.097 425.027 240.969 425.212 240.833 425.419L240.465 425.979C240.305 426.237 240.218 426.497 240.205 426.762C240.185 427.211 240.186 427.62 240.208 427.99C240.228 428.266 240.269 428.637 240.33 429.101L238.67 429.728C238.522 429.038 238.426 428.523 238.382 428.182C238.273 427.35 238.266 426.55 238.359 425.782C238.458 425.012 238.662 424.135 238.969 423.149L240.811 422.538C240.553 423.659 240.403 424.535 240.359 425.166C241.082 424.11 241.668 423.369 242.117 422.943C242.57 422.511 242.99 422.269 243.378 422.219C243.641 422.184 243.874 422.256 244.075 422.435C244.277 422.608 244.397 422.844 244.436 423.144C244.501 423.64 244.385 424.485 244.09 425.679C243.887 426.499 243.801 427.025 243.831 427.257C243.872 427.567 244.018 427.705 244.271 427.672C244.648 427.623 245.193 427.045 245.904 425.938L246.021 426.829ZM249.261 422.805C249.574 422.307 249.882 421.931 250.185 421.676C250.487 421.416 250.84 421.259 251.242 421.207C251.764 421.138 252.214 421.284 252.592 421.645C252.974 421.999 253.208 422.502 253.293 423.153C253.442 424.294 253.184 425.394 252.519 426.453C251.858 427.505 251.065 428.092 250.141 428.213C249.883 428.247 249.675 428.245 249.518 428.208C249.361 428.171 249.147 428.065 248.878 427.89C248.72 429.575 248.651 430.919 248.671 431.919L246.749 432.525C246.8 430.06 246.948 427.551 247.192 424.998C246.627 425.98 246.239 426.59 246.028 426.828L245.85 426.851L245.759 426.154C246.602 424.967 247.242 423.576 247.68 421.979L249.389 421.433L249.261 422.805ZM248.912 427.066C249.238 427.475 249.564 427.658 249.89 427.616C250.411 427.547 250.819 427.092 251.114 426.25C251.412 425.402 251.513 424.601 251.414 423.847C251.362 423.45 251.238 423.14 251.041 422.919C250.848 422.692 250.623 422.595 250.365 422.629C250.163 422.656 249.963 422.774 249.765 422.983C249.566 423.193 249.426 423.427 249.344 423.684C249.262 423.937 249.187 424.372 249.121 424.99L248.912 427.066ZM257.586 417.297C257.748 418.536 257.372 419.216 256.458 419.335C256.014 419.393 255.617 419.309 255.267 419.081C255.507 418.588 255.672 418.046 255.763 417.456C256.204 417.656 256.549 417.74 256.797 417.707C257.076 417.671 257.339 417.534 257.586 417.297ZM258.772 425.163C257.729 426.591 256.908 427.344 256.309 427.423C255.979 427.466 255.678 427.335 255.407 427.029C255.135 426.717 254.966 426.306 254.899 425.795C254.755 424.695 254.928 423.123 255.417 421.079L257.331 420.411L257.424 420.399L256.966 422.925C256.777 423.968 256.711 424.705 256.767 425.133C256.789 425.304 256.843 425.438 256.93 425.537C257.021 425.631 257.123 425.67 257.237 425.655C257.438 425.629 257.63 425.53 257.812 425.359C257.999 425.182 258.28 424.82 258.655 424.272L258.772 425.163ZM263.9 424.493C263.282 425.23 262.727 425.788 262.236 426.168C261.749 426.541 261.265 426.759 260.785 426.822C260.232 426.894 259.758 426.738 259.361 426.354C258.969 425.969 258.726 425.416 258.631 424.693C258.49 423.608 258.555 422.276 258.826 420.696C259.098 419.116 259.485 417.642 259.989 416.274L261.862 415.288C261.921 415.26 261.966 415.243 261.997 415.239C262.147 415.22 262.283 415.315 262.405 415.525C262.531 415.729 262.619 416.017 262.668 416.389C262.805 417.442 262.696 418.494 262.339 419.544C261.983 420.594 261.361 421.746 260.475 423.002C260.504 423.544 260.531 423.916 260.558 424.118C260.616 424.567 260.745 424.913 260.945 425.154C261.145 425.396 261.382 425.499 261.655 425.463C261.934 425.427 262.218 425.288 262.507 425.045C262.795 424.802 263.221 424.321 263.783 423.602L263.9 424.493ZM260.537 421.851C261.098 421.037 261.523 420.152 261.813 419.195C262.103 418.238 262.205 417.434 262.12 416.783C262.095 416.592 262.047 416.443 261.975 416.337C261.903 416.226 261.823 416.176 261.735 416.187C261.544 416.212 261.327 416.724 261.085 417.722C260.847 418.72 260.665 420.096 260.537 421.851Z" fill="black"/></g></svg></div></div>
+    <div class="layer flapWrap"><div class="layer flap" id="sFlap"><div class="back"></div></div></div>
+  </div>
+</div>
+
+<script>
+/* ================== 수정할 내용 ================== */
+const WEDDING = '2026-12-25T12:00:00-05:00';   // 나이아가라 현지 시각 (12월 EST, UTC-5)
+const ACCOUNTS = [
+  { title: '큰 신랑측 계좌번호', items: [
+    { who: '신랑 예금주 계좌번호', num: '은행 000-0000-0000 (예금주)' },
+    { who: '아버님 계좌번호',      num: '은행 000-0000-0000 (예금주)' },
+    { who: '어머님 계좌번호',      num: '은행 000-0000-0000 (예금주)' } ] },
+  { title: '작은 신랑측 계좌번호', items: [
+    { who: '신랑 예금주 계좌번호', num: '은행 000-0000-0000 (예금주)' },
+    { who: '아버님 계좌번호',      num: '은행 000-0000-0000 (예금주)' },
+    { who: '어머님 계좌번호',      num: '은행 000-0000-0000 (예금주)' } ] }
+];
+const PHOTOS = [                                            // 9장씩 한 페이지로 나뉨
+  ...[1,2,3,4,5,6,7,8,9].map(i => ({ thumb: `g${i}.webp`, full: `full${i}.webp` })),
+  ...[1,2,3,4,5,6,7,8].map(i => ({ thumb: `h${i}.webp`, full: `hfull${i}.webp` }))
+];
+/* ================================================= */
+
+const $ = id => document.getElementById(id);
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const toast = (msg) => { const t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 1800); };
+
+/* ---------- 달력 ---------- */
+(() => {
+  const cal = $('cal'), cols = [63,109,155,200.5,246,292,338], u = v => `calc(var(--u)*${v})`;
+  const put = (txt, x, y, cls) => { const s = document.createElement('span'); s.textContent = txt; if (cls) s.className = cls;
+    s.style.left = u(x - 40); s.style.top = u(y - 1200); cal.appendChild(s); };
+  ['일','월','화','수','목','금','토'].forEach((d, i) => put(d, cols[i], 1218.5));
+  const first = new Date(2026, 11, 1).getDay();
+  for (let d = 1; d <= 31; d++){
+    const idx = first + d - 1;
+    put(d, cols[idx % 7], 1246.5 + Math.floor(idx / 7) * 24, d === 25 ? 'on' : '');
+  }
+})();
+
+/* ---------- 카운트다운 ---------- */
+(() => {
+  const target = new Date(WEDDING).getTime(), p = n => String(n).padStart(2, '0');
+  const tick = () => {
+    let s = Math.max(0, Math.floor((target - Date.now()) / 1000));
+    const d = Math.floor(s / 86400); s %= 86400;
+    const h = Math.floor(s / 3600); s %= 3600;
+    const set = (id, v) => { const el = $(id); if (el.textContent === v) return; el.textContent = v;
+      if (reduce) return; el.classList.remove('tick'); void el.offsetWidth; el.classList.add('tick'); };
+    set('cdD', p(d)); set('cdH', p(h)); set('cdM', p(Math.floor(s / 60))); set('cdS', p(s % 60));
+    $('dday').querySelector('b').textContent = d;
+  };
+  tick(); setInterval(tick, 1000);
+})();
+
+/* ---------- 갤러리 ---------- */
+(() => {
+  const track = $('gtrack'), dots = $('dots'), view = $('gview');
+  const pages = []; for (let i = 0; i < PHOTOS.length; i += 9) pages.push(PHOTOS.slice(i, i + 9));
+  pages.forEach((pg, pi) => {
+    const el = document.createElement('div'); el.className = 'gpage';
+    pg.forEach((ph, j) => {
+      const b = document.createElement('button'); b.setAttribute('aria-label', `사진 ${pi*9 + j + 1} 크게 보기`);
+      b.innerHTML = `<img src="${ph.thumb}" alt="" loading="lazy">`;
+      b.onclick = () => openLb(pi*9 + j);
+      el.appendChild(b);
+    });
+    track.appendChild(el);
+    const dot = document.createElement('i'); dots.appendChild(dot);
+  });
+  if (pages.length < 2) dots.style.visibility = 'hidden';
+  let cur = 0;
+  const go = i => { cur = Math.max(0, Math.min(pages.length - 1, i));
+    track.style.transform = `translateX(${-100 * cur}%)`;
+    [...dots.children].forEach((d, k) => d.classList.toggle('on', k === cur)); };
+  go(0);
+  // 손가락(또는 마우스)으로 끌면 따라오다가 넘어감
+  let sx = null, sy = null, dx = 0, horiz = null;
+  view.addEventListener('pointerdown', e => { sx = e.clientX; sy = e.clientY; dx = 0; horiz = null; });
+  view.addEventListener('pointermove', e => {
+    if (sx === null) return;
+    const mx = e.clientX - sx, my = e.clientY - sy;
+    if (horiz === null && Math.hypot(mx, my) > 8) horiz = Math.abs(mx) > Math.abs(my);
+    if (!horiz) return;
+    dx = mx; track.style.transition = 'none';
+    const edge = (cur === 0 && dx > 0) || (cur === pages.length - 1 && dx < 0) ? .3 : 1;
+    track.style.transform = `translateX(calc(${-100 * cur}% + ${dx * edge}px))`;
+  });
+  const end = () => { if (sx === null) return; track.style.transition = '';
+    if (horiz && Math.abs(dx) > view.clientWidth * .18) go(cur + (dx < 0 ? 1 : -1)); else go(cur);
+    if (horiz) view._swiped = Date.now(); sx = null; };
+  view.addEventListener('pointerup', end); view.addEventListener('pointercancel', end); view.addEventListener('pointerleave', end);
+  view.addEventListener('click', e => { if (Date.now() - (view._swiped || 0) < 300) { e.stopPropagation(); e.preventDefault(); } }, true);
+  view.addEventListener('dragstart', e => e.preventDefault());
+  [...dots.children].forEach((d, k) => d.onclick = () => go(k));
+
+  // 크게 보기
+  const lb = $('lb'), img = $('lbImg'); let at = 0;
+  const show = i => { at = (i + PHOTOS.length) % PHOTOS.length; img.src = PHOTOS[at].full; $('lbCnt').textContent = `${at + 1} / ${PHOTOS.length}`; };
+  window.openLb = i => { show(i); lb.classList.add('open'); document.body.style.overflow = 'hidden'; };
+  const close = () => { lb.classList.remove('open'); document.body.style.overflow = ''; };
+  $('lbX').onclick = close; $('lbPrev').onclick = () => show(at - 1); $('lbNext').onclick = () => show(at + 1);
+  lb.addEventListener('click', e => { if (e.target === lb) close(); });
+  addEventListener('keydown', e => { if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') close(); if (e.key === 'ArrowLeft') show(at - 1); if (e.key === 'ArrowRight') show(at + 1); });
+  let lx = null;
+  lb.addEventListener('touchstart', e => { lx = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', e => { if (lx === null) return; const dx = e.changedTouches[0].clientX - lx;
+    if (Math.abs(dx) > 40) show(at + (dx < 0 ? 1 : -1)); lx = null; });
+})();
+
+/* ---------- 영상 = BGM ----------
+   스티커를 떼는 순간(사용자 터치)에 영상을 소리와 함께 재생 시작.
+   브라우저가 소리 재생을 막으면 음소거로 재생하고 오른쪽 위 스피커 버튼으로 켤 수 있게 함. */
+const VIDEO_ID = 'TU0q9CW3Xmo';
+const video = (() => {
+  const box = $('vbox'), btn = $('bgm');
+  let frame = null, state = -1, muted = false, fellBack = false;
+  const cmd = (func, args = []) => frame && frame.contentWindow &&
+    frame.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args }), '*');
+  const paint = () => { btn.classList.toggle('off', muted); btn.setAttribute('aria-label', muted ? '소리 켜기' : '소리 끄기'); };
+  addEventListener('message', e => {
+    if (!frame || e.source !== frame.contentWindow) return;
+    let d; try { d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch { return; }
+    const info = d && d.info; if (!info) return;
+    if (typeof info.playerState === 'number') state = info.playerState;
+    if (typeof info.muted === 'boolean') { muted = info.muted; paint(); }
+  });
+  function start(){                                   // 반드시 터치 이벤트 안에서 호출
+    if (frame) return;
+    frame = document.createElement('iframe');
+    frame.src = `https://www.youtube-nocookie.com/embed/${VIDEO_ID}?enablejsapi=1&autoplay=1&playsinline=1&rel=0&loop=1&playlist=${VIDEO_ID}&origin=${encodeURIComponent(location.origin)}`;
+    frame.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen'; frame.allowFullscreen = true; frame.title = 'YouTube 영상';
+    frame.addEventListener('load', () => {
+      const hello = () => frame.contentWindow.postMessage(JSON.stringify({ event: 'listening', id: 1 }), '*');
+      hello(); setTimeout(hello, 500);
+      setTimeout(() => { cmd('unMute'); cmd('setVolume', [100]); cmd('playVideo'); }, 400);
+      // 3초 안에 재생이 안 되면(소리 자동재생 차단) 음소거로라도 재생
+      setTimeout(() => { if (state !== 1){ fellBack = true; cmd('mute'); cmd('playVideo'); muted = true; paint(); } }, 3000);
+    });
+    box.appendChild(frame);
+  }
+  btn.addEventListener('click', () => {
+    if (!frame) { start(); return; }
+    if (muted || state !== 1){ cmd('unMute'); cmd('setVolume', [100]); cmd('playVideo'); muted = false; }
+    else { cmd('mute'); muted = true; }
+    paint();
+  });
+  box.addEventListener('click', start);
+  return { start, show: () => { btn.hidden = false; paint(); } };
+})();
+
+/* ---------- 계좌번호 ---------- */
+(() => {
+  const root = $('accounts');
+  ACCOUNTS.forEach((g, gi) => {
+    const acc = document.createElement('div'); acc.className = 'acc rv';
+    acc.innerHTML = `<button class="acc-h" aria-expanded="false"><span>${g.title}</span>
+      <svg viewBox="333 2647 13 7" aria-hidden="true"><path d="M333 2647L339.5 2654L346 2647" stroke-width="1.2" stroke="black" fill="none"/></svg></button>
+      <div class="acc-b"><div><ul>${g.items.map((it, i) => `<li><span class="who">${it.who}<span class="num">${it.num}</span></span>
+      <button class="copy" data-g="${gi}" data-i="${i}">복사하기</button></li>`).join('')}</ul></div></div>`;
+    const h = acc.querySelector('.acc-h');
+    h.onclick = () => { const o = acc.classList.toggle('open'); h.setAttribute('aria-expanded', o); };
+    root.appendChild(acc);
+  });
+  root.addEventListener('click', async e => {
+    const b = e.target.closest('.copy'); if (!b) return;
+    const num = ACCOUNTS[b.dataset.g].items[b.dataset.i].num;
+    try { await navigator.clipboard.writeText(num); toast('계좌번호가 복사되었습니다'); }
+    catch { toast(num); }
+  });
+})();
+
+/* ---------- 방명록 (저장·전송 없음: 보내면 안내만 띄우고 비움) ---------- */
+(() => {
+  const form = $('gbForm'), ta = $('gbText');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    if (!ta.value.trim()) { ta.focus(); toast('축하 메시지를 적어 주세요'); return; }
+    ta.value = ''; ta.blur();
+    toast('축하 메시지가 전송되었습니다');
+  });
+})();
+
+/* ---------- 스크롤 등장 ---------- */
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  const el = e.target; setTimeout(() => el.classList.add('in'), +(el.dataset.d || 0) * (reduce ? 0 : 1)); io.unobserve(el);
+}), { rootMargin: '0px 0px -8% 0px' });
+function startReveal(){ document.querySelectorAll('.rv, .deco').forEach(el => io.observe(el)); }
+
+/* ================== 온보딩: 스티커 떼기 → 종이 벗기기 ================== */
+(() => {
+  const intro = $('intro'), sticker = $('sticker'), flat = $('sFlat'), flap = $('sFlap');
+  const W = 168.8, H = 69.6, TH = -7.4454 * Math.PI / 180;
+  const fit = () => intro.style.setProperty('--s', intro.clientWidth / 402);
+  fit(); addEventListener('resize', fit);
+
+  const RECT = [[0,0],[W,0],[W,H],[0,H]];
+  function clipHalf(poly, M, n, keepPositive){
+    const side = p => ((p[0]-M[0])*n[0] + (p[1]-M[1])*n[1]) * (keepPositive ? 1 : -1);
+    const out = [];
+    for (let i = 0; i < poly.length; i++){
+      const a = poly[i], b = poly[(i+1) % poly.length], sa = side(a), sb = side(b);
+      if (sa >= 0) out.push(a);
+      if ((sa >= 0) !== (sb >= 0)){ const t = sa / (sa - sb); out.push([a[0] + (b[0]-a[0])*t, a[1] + (b[1]-a[1])*t]); }
+    }
+    return out;
+  }
+  const toClip = poly => poly.length < 3 ? 'polygon(0 0,0 0,0 0)'
+    : 'polygon(' + poly.map(p => p[0].toFixed(2)+'px '+p[1].toFixed(2)+'px').join(',') + ')';
+
+  // 스티커: 모서리 C를 P까지 끌어 접기
+  function render(C, P){
+    const dx = C[0]-P[0], dy = C[1]-P[1], len = Math.hypot(dx, dy);
+    if (len < 0.5){ flat.style.clipPath = 'none'; flap.style.visibility = 'hidden'; return; }
+    const n = [dx/len, dy/len], M = [(C[0]+P[0])/2, (C[1]+P[1])/2];
+    flat.style.clipPath = toClip(clipHalf(RECT, M, n, false));
+    const src = clipHalf(RECT, M, n, true), k = 2 * (M[0]*n[0] + M[1]*n[1]);
+    const a = 1 - 2*n[0]*n[0], b = -2*n[0]*n[1], d = 1 - 2*n[1]*n[1];
+    flap.style.transform = `matrix(${a},${b},${b},${d},${k*n[0]},${k*n[1]})`;
+    flap.style.clipPath = toClip(src);
+    flap.style.visibility = src.length >= 3 ? 'visible' : 'hidden';
+  }
+  const toLocal = (dx, dy) => { const s = intro.clientWidth / 402, c = Math.cos(-TH), si = Math.sin(-TH);
+    return [(dx*c - dy*si)/s, (dx*si + dy*c)/s]; };
+
+  let state = 'idle', C = null, start = null, P = null, moved = false;
+  sticker.addEventListener('pointerdown', e => {
+    if (state !== 'idle') return;
+    sticker.classList.remove('hint'); sticker.setPointerCapture(e.pointerId);
+    const r = sticker.getBoundingClientRect();
+    const [lx, ly] = toLocal(e.clientX - (r.left + r.width/2), e.clientY - (r.top + r.height/2));
+    C = [lx > 0 ? W : 0, ly > 0 ? H : 0]; start = [e.clientX, e.clientY]; P = C.slice(); moved = false; state = 'drag';
+  });
+  sticker.addEventListener('pointermove', e => {
+    if (state !== 'drag') return;
+    const [dx, dy] = toLocal(e.clientX - start[0], e.clientY - start[1]);
+    if (Math.hypot(dx, dy) > 4) moved = true;
+    P = [C[0] + dx, C[1] + dy]; render(C, P);
+  });
+  const release = () => {
+    if (state !== 'drag') return;
+    if (!moved){ C = [W, 0]; peel([W, 0]); return; }
+    Math.hypot(P[0]-C[0], P[1]-C[1]) > W * 0.32 ? peel(P) : springBack();
+  };
+  sticker.addEventListener('pointerup', release);
+  sticker.addEventListener('pointercancel', release);
+  sticker.addEventListener('keydown', e => {
+    if ((e.key === 'Enter' || e.key === ' ') && state === 'idle'){ e.preventDefault(); sticker.classList.remove('hint'); C = [W,0]; peel([W,0]); }
+  });
+
+  const easeOut = t => 1 - Math.pow(1 - t, 3);
+  const easeInOut = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+  function tween(from, to, ms, ease, done){
+    const t0 = performance.now();
+    const step = now => { const t = Math.min(1, (now - t0) / ms), k = ease(t);
+      P = [from[0] + (to[0]-from[0])*k, from[1] + (to[1]-from[1])*k]; render(C, P);
+      t < 1 ? requestAnimationFrame(step) : done && done(); };
+    requestAnimationFrame(step);
+  }
+  function springBack(){ state = 'anim'; tween(P, C, 280, easeOut, () => { render(C, C); state = 'idle'; }); }
+  function peel(from){
+    state = 'anim';
+    video.start();
+    if (navigator.vibrate) try { navigator.vibrate(12); } catch(_){}
+    const opp = [W - C[0], H - C[1]], end = [C[0] + (opp[0]-C[0])*1.08, C[1] + (opp[1]-C[1])*1.08];
+    tween(from, end, reduce ? 1 : 620, easeInOut, () => {
+      sticker.classList.add('fly');
+      setTimeout(open, reduce ? 0 : 260);
+      setTimeout(() => sticker.remove(), 900);
+    });
+  }
+
+  // 종이: 모서리부터 대각선으로 접히며 벗겨짐
+  function peelSheet(sheet, corner, delay, ms){
+    const flatEl = sheet.querySelector('.flat'), curl = sheet.querySelector('.curl');
+    return new Promise(done => {
+      const w = sheet.clientWidth, h = sheet.clientHeight, rect = [[0,0],[w,0],[w,h],[0,h]];
+      const C = [corner[0]*w, corner[1]*h], O = [w - C[0], h - C[1]];
+      const end = [C[0] + (O[0]-C[0])*2.15, C[1] + (O[1]-C[1])*2.15];
+      const ease = t => -(Math.cos(Math.PI * t) - 1) / 2;
+      const t0 = performance.now() + delay;
+      const step = now => {
+        const t = Math.max(0, Math.min(1, (now - t0) / ms));
+        if (t > 0){
+          const k = ease(t), P = [C[0] + (end[0]-C[0])*k, C[1] + (end[1]-C[1])*k];
+          const dx = C[0]-P[0], dy = C[1]-P[1], len = Math.hypot(dx, dy);
+          const n = [dx/len, dy/len], M = [(C[0]+P[0])/2, (C[1]+P[1])/2];
+          flatEl.style.clipPath = toClip(clipHalf(rect, M, n, false));
+          const dM = 2*(M[0]*n[0] + M[1]*n[1]);
+          const src = clipHalf(rect, M, n, true).map(([x,y]) => { const s = 2*(x*n[0] + y*n[1]) - dM; return [x - s*n[0], y - s*n[1]]; });
+          curl.style.clipPath = toClip(src);
+          curl.style.visibility = src.length >= 3 ? 'visible' : 'hidden';
+          const dd = [-n[0], -n[1]], ang = Math.atan2(dd[0], -dd[1]) * 180 / Math.PI, rad = ang * Math.PI / 180;
+          const L = Math.abs(w*Math.sin(rad)) + Math.abs(h*Math.cos(rad));
+          const s0 = (M[0]-w/2)*dd[0] + (M[1]-h/2)*dd[1] + L/2;
+          curl.style.background = `linear-gradient(${ang}deg, rgba(255,255,255,.80) 0px, rgba(255,255,255,.80) ${s0}px,
+            rgba(222,218,210,.94) ${s0}px, rgba(250,249,246,.93) ${s0+26}px, rgba(255,255,255,.90) ${s0+90}px, rgba(244,242,237,.92) ${L}px)`;
+        }
+        t < 1 ? requestAnimationFrame(step) : (sheet.style.visibility = 'hidden', done());
+      };
+      requestAnimationFrame(step);
+    });
+  }
+
+  function open(){
+    intro.classList.add('opened');
+    const ms = reduce ? 1 : 1500;
+    Promise.all([
+      peelSheet($('sTop'), [1, 1], 0, ms),
+      peelSheet($('sBot'), [0, 0], reduce ? 0 : 320, ms)
+    ]).then(() => setTimeout(enterMain, reduce ? 0 : 650));
+  }
+  function enterMain(){
+    scrollTo(0, 0);
+    document.body.classList.remove('locked');
+    intro.classList.add('gone');
+    startReveal();
+    video.show();
+    setTimeout(() => intro.remove(), 1000);
+  }
+  render([W,0],[W,0]);
+})();
+</script>
+</body>
+</html>
