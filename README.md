@@ -4,7 +4,6 @@
 
 ## 파일
 - `index.html` — 온보딩, 픽션/카툰 카드 덱, 상세(프리뷰) 페이지
-- `api/translate.js` — 구글 번역 서버 함수
 - `vercel.json`, `package.json` — Vercel 설정
 
 ## 작품 수정
@@ -15,6 +14,3 @@
 Framework Preset: **Other**, Build Command 없음, Output Directory 기본값.
 GitHub에 올릴 때 `index.html` 이 저장소 맨 위(루트)에 있어야 합니다.
 
-## 번역 (Google Cloud Translation)
-1. Google Cloud 콘솔에서 Cloud Translation API 사용 설정 → API 키 발급
-2. Vercel 프로젝트 → Settings → Environment Variables 에 `GOOGLE_TRANSLATE_API_KEY` 추가 → Redeploy
